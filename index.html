@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Rez Bounce Co</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Lilita+One&family=Nunito:wght@400;600;800&display=swap" rel="stylesheet">
+<style>
+/* VOICE occasion: a fun family party business, bright and friendly
+   IDEA a hand-painted party-rental sign: big rounded letters, sunny sky, inflatable stripes
+   PICTURE a big bounce castle under a desert sky with mesas, full width under the title
+   COLOUR sky blue dominant, sunshine yellow support, bounce red accent; white content ground
+   TYPE Lilita One display + Nunito text
+   LAYOUT laptop: title across the top of the sky band, scene full-bleed beneath; phone: same order, stacked cards */
+:root{color-scheme:light dark;--bg:light-dark(#ffffff,#141230);--ink:light-dark(#16203a,#f4f2ff);--soft:light-dark(#4a5470,#c3c0e0);--sky:light-dark(#2bb3ee,#1d1a52);--sky2:light-dark(#9fe0ff,#3a2f7a);--sun:#ffc93c;--red:#ff4545;--blue:#2f6bff;--card:light-dark(#f2faff,#1f1c44);--line:light-dark(#d6ecf7,#34306a);--mesa:light-dark(#d9774a,#7a3b52);--mesa2:light-dark(#efa274,#5a2e55);--sand:light-dark(#f7d9a2,#3b2f55)}
+:root[data-theme=light]{color-scheme:light}
+:root[data-theme=dark]{color-scheme:dark}
+*{box-sizing:border-box;min-width:0}
+html{scroll-padding-top:80px;scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--ink);font:17px/1.55 Nunito,system-ui,sans-serif;overflow-x:clip}
+h1,h2,h3{font-family:"Lilita One",Nunito,system-ui,sans-serif;font-weight:400;line-height:1.05;letter-spacing:-.01em;margin:0;text-wrap:balance}
+h1{font-size:clamp(40px,7vw,76px)}
+h2{font-size:clamp(32px,4.4vw,48px);margin-bottom:12px}
+h3{font-size:26px;margin-bottom:6px}
+p{margin:0 0 12px;max-width:62ch}
+a{color:inherit}
+.wrap{max-width:1240px;margin:0 auto}
+.band{padding-block:clamp(36px,5vw,72px);padding-inline:max(5vw,16px)}
+.btn{display:inline-flex;align-items:center;justify-content:center;min-height:48px;padding:10px 24px;border-radius:999px;font:800 17px Nunito,sans-serif;text-decoration:none;border:3px solid var(--ink);background:var(--sun);color:#16203a;box-shadow:0 4px 0 var(--ink);transition:transform .12s,box-shadow .12s;white-space:nowrap}
+.btn:hover{transform:translateY(-2px);box-shadow:0 6px 0 var(--ink)}
+.btn:active{transform:translateY(3px);box-shadow:0 1px 0 var(--ink)}
+.btn:focus-visible{outline:3px solid var(--red);outline-offset:3px}
+.btn.alt{background:var(--bg);color:var(--ink)}
+.btn.red{background:var(--red);color:#fff}
+nav{position:sticky;top:0;z-index:5;background:var(--sky);border-bottom:3px solid var(--ink)}
+nav .wrap{display:flex;flex-wrap:wrap;align-items:center;gap:10px 22px;padding:10px max(5vw,16px)}
+.logo{font:400 26px "Lilita One",sans-serif;text-decoration:none;color:#fff;-webkit-text-stroke:1px #16203a;paint-order:stroke;text-shadow:2px 2px 0 #16203a;margin-right:auto}
+nav .links{display:flex;flex-wrap:wrap;gap:4px 18px}
+nav .links a{color:#fff;font-weight:800;text-decoration:none;padding:6px 0}
+nav .links a:hover{text-decoration:underline;text-decoration-thickness:3px}
+nav .btn{min-height:44px;padding:6px 18px;font-size:16px}
+.hero{background:linear-gradient(var(--sky),var(--sky2));color:#fff;padding-bottom:0}
+.hero .top{display:grid;grid-template-columns:minmax(0,1.4fr) minmax(0,1fr);gap:20px 40px;align-items:end}
+.hero h1{color:#fff;text-shadow:3px 3px 0 #16203a}
+.hero p{font-size:19px;font-weight:600;color:#fff;margin:0}
+.hero .cta{display:flex;flex-wrap:wrap;gap:12px;margin-top:18px}
+.scene{position:relative;height:clamp(240px,34vw,420px);margin-top:18px;margin-inline:calc(-1*max(5vw,16px))}
+.scene svg{position:absolute;inset:0;width:100%;height:100%;display:block}
+.bob{animation:bob 2.6s ease-in-out infinite;transform-origin:50% 100%;transform-box:fill-box}
+@keyframes bob{50%{transform:scaleY(.97) translateY(4px)}}
+@media(prefers-reduced-motion:reduce){.bob{animation:none}html{scroll-behavior:auto}}
+.ribbon{background:var(--sun);color:#16203a;border-block:3px solid var(--ink);font-weight:800}
+.ribbon .wrap{display:flex;flex-wrap:wrap;justify-content:space-between;gap:8px 24px;padding:14px max(5vw,16px)}
+.ribbon span{white-space:nowrap}
+.cards{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:24px;margin-top:24px}
+.card{background:var(--card);border:3px solid var(--ink);border-radius:22px;overflow:hidden;display:flex;flex-direction:column}
+.card .art{height:220px;background:var(--sky2);border-bottom:3px solid var(--ink);position:relative}
+.card .art svg{position:absolute;inset:0;width:100%;height:100%}
+.card .body{padding:20px 22px 24px;display:flex;flex-direction:column;flex:1}
+.card ul{margin:4px 0 18px;padding-left:20px}
+.card li{margin-bottom:4px}
+.tag{display:inline-block;align-self:flex-start;background:var(--red);color:#fff;font-weight:800;border-radius:999px;padding:3px 14px;margin-bottom:10px;white-space:nowrap}
+.card .btn{margin-top:auto;align-self:flex-start}
+.events{background:var(--sky);color:#fff}
+.events h2{color:#fff;text-shadow:2px 2px 0 #16203a}
+.evgrid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:16px;margin-top:20px}
+.ev{background:var(--bg);color:var(--ink);border:3px solid var(--ink);border-radius:18px;padding:18px}
+.ev svg{width:52px;height:52px;display:block;margin-bottom:8px}
+.ev b{display:block;font-size:19px;line-height:1.2;margin-bottom:4px}
+.ev span{color:var(--soft);font-size:15px}
+.steps{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:24px;margin-top:24px;counter-reset:s}
+.step{position:relative;padding-top:64px}
+.step::before{counter-increment:s;content:counter(s);position:absolute;top:0;left:0;width:52px;height:52px;border-radius:50%;background:var(--sun);border:3px solid var(--ink);display:grid;place-items:center;font:400 28px "Lilita One",sans-serif;color:#16203a}
+.step h3{font-size:24px}
+.good{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:28px 48px;align-items:start}
+.facts{display:grid;gap:12px;margin:0;padding:0;list-style:none}
+.facts li{background:var(--card);border:2px solid var(--line);border-radius:14px;padding:14px 18px}
+.facts b{display:block;font-size:18px}
+.closer{background:var(--red);color:#fff;text-align:left}
+.closer .wrap{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:20px}
+.closer h2{color:#fff;margin:0;text-shadow:2px 2px 0 #16203a}
+.closer p{margin:6px 0 0;font-weight:600}
+footer{background:var(--ink);color:var(--bg)}
+footer .wrap{display:grid;grid-template-columns:minmax(0,1.2fr) minmax(0,1fr) minmax(0,1fr);gap:24px}
+footer h3{font-size:22px;color:var(--sun)}
+footer p{margin:0 0 6px}
+footer small{display:block;margin-top:24px;opacity:.75;font-size:14px}
+.nowrap{white-space:nowrap}
+@media(max-width:900px){.evgrid{grid-template-columns:repeat(2,minmax(0,1fr))}footer .wrap{grid-template-columns:minmax(0,1fr) minmax(0,1fr)}}
+@media(max-width:760px){.hero .top{grid-template-columns:minmax(0,1fr)}.cards,.good{grid-template-columns:minmax(0,1fr)}.steps{grid-template-columns:minmax(0,1fr);gap:16px}.step{padding:0 0 0 70px;min-height:56px}}
+@media(max-width:600px){nav .links{display:none}.evgrid{grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:10px}.ev{padding:14px}footer .wrap{grid-template-columns:minmax(0,1fr)}.ribbon .wrap{justify-content:flex-start}}
+</style>
+</head>
+<body>
+<nav>
+  <div class="wrap">
+    <a class="logo" href="#top">Rez Bounce Co</a>
+    <div class="links">
+      <a href="#rentals">Rentals</a>
+      <a href="#how">How it works</a>
+      <a href="#know">Good to know</a>
+      <a href="#contact">Contact</a>
+    </div>
+    <a class="btn book" href="#">Book now</a>
+  </div>
+</nav>
+
+<header class="hero band" id="top">
+  <div class="wrap">
+    <div class="top">
+      <h1>Bounce houses and a mechanical bull for your next party</h1>
+      <div>
+        <p>Birthdays, school days, work events and community gatherings. Tell us about your event and we'll send you a quote.</p>
+        <div class="cta">
+          <a class="btn book" href="#">Request a booking</a>
+          <a class="btn alt" href="#rentals">See rentals</a>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="scene" aria-hidden="true"><svg id="scene"></svg></div>
+</header>
+
+<div class="ribbon">
+  <div class="wrap">
+    <span>Bounce houses: 4-hour minimum</span>
+    <span>Mechanical bull: 3-hour minimum</span>
+    <span>Delivery and setup available</span>
+  </div>
+</div>
+
+<section class="band" id="rentals">
+  <div class="wrap">
+    <h2>Our rentals</h2>
+    <p>Pick what fits your crowd. Extra hours can be added to any rental.</p>
+    <div class="cards">
+      <article class="card">
+        <div class="art"><svg id="artCastle" aria-hidden="true"></svg></div>
+        <div class="body">
+          <span class="tag">4-hour minimum</span>
+          <h3>Bounce houses</h3>
+          <p>The classic party centerpiece. Kids bounce, parents relax, everybody sleeps well that night.</p>
+          <ul>
+            <li>Great for birthdays and school events</li>
+            <li>Delivered, set up and taken down</li>
+            <li>Extra hours available</li>
+          </ul>
+          <a class="btn book" href="#">Request a bounce house</a>
+        </div>
+      </article>
+      <article class="card">
+        <div class="art"><svg id="artBull" aria-hidden="true"></svg></div>
+        <div class="body">
+          <span class="tag">3-hour minimum</span>
+          <h3>Mechanical bull</h3>
+          <p>See who can hang on the longest. A crowd favorite for teens, grown-ups and community events.</p>
+          <ul>
+            <li>Comes with a padded landing mat</li>
+            <li>Big hit at fairs and company parties</li>
+            <li>Extra hours available</li>
+          </ul>
+          <a class="btn book" href="#">Request the bull</a>
+        </div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<section class="band events">
+  <div class="wrap">
+    <h2>Events we bounce</h2>
+    <div class="evgrid" id="evgrid"></div>
+  </div>
+</section>
+
+<section class="band" id="how">
+  <div class="wrap">
+    <h2>How booking works</h2>
+    <div class="steps">
+      <div class="step"><h3>Send a request</h3><p>Fill out our short booking form with your date, event type and what you'd like to rent.</p></div>
+      <div class="step"><h3>Get your quote</h3><p>We check availability and send a final quote, including any delivery, setup or extra-hour fees.</p></div>
+      <div class="step"><h3>You're booked</h3><p>Once we approve your request, your date is locked in. Then all that's left is the fun part.</p></div>
+    </div>
+    <p style="margin-top:22px"><a class="btn book" href="#">Start your request</a></p>
+  </div>
+</section>
+
+<section class="band" id="know" style="background:var(--card)">
+  <div class="wrap good">
+    <div>
+      <h2>Good to know</h2>
+      <p>Every event is a little different, so your final price comes after we look over your request. Here's what can go into it.</p>
+    </div>
+    <ul class="facts">
+      <li><b>Minimum rental times</b>4 hours for bounce houses, 3 hours for the mechanical bull.</li>
+      <li><b>Extra hours</b>Want it longer? Additional hours are charged on top of the minimum.</li>
+      <li><b>Delivery, setup and generators</b>These may add fees depending on where your event is and whether power is nearby.</li>
+      <li><b>Not booked until approved</b>Sending the form is a request. Your booking is confirmed once Rez Bounce Co approves it.</li>
+    </ul>
+  </div>
+</section>
+
+<section class="band closer">
+  <div class="wrap">
+    <div>
+      <h2>Got a date in mind?</h2>
+      <p>Requests are first come, first served. Weekends fill up fast.</p>
+    </div>
+    <a class="btn book" href="#">Book now</a>
+  </div>
+</section>
+
+<footer class="band" id="contact">
+  <div class="wrap">
+    <div>
+      <h3>Rez Bounce Co</h3>
+      <p>Bounce house and mechanical bull rentals for parties, schools, businesses and community events.</p>
+    </div>
+    <div>
+      <h3>Contact</h3>
+      <p>Call or text <span class="nowrap">(505) 555-0142</span></p>
+      <p>rezbounceco@example.com</p>
+    </div>
+    <div>
+      <h3>Book</h3>
+      <p><a class="book" href="#">Booking request form</a></p>
+      <p>Final quote after review</p>
+    </div>
+  </div>
+  <div class="wrap"><small>Phone and email are sample details for this draft.</small></div>
+</footer>
+
+<script>
+{
+const FORM = "https://docs.google.com/forms/d/e/1FAIpQLSeKIq2zjS9GlfX8J7WIW54w37LfnM9_XHvW8Zv_4jv2V0mZkg/viewform";
+for (const a of document.querySelectorAll('a.book')) { a.href = FORM; a.target = "_blank"; a.rel = "noopener"; }
+
+const EVENTS = [
+  {t:"Birthday parties", d:"Personal celebrations of every size", c:"#ff4545", i:'<path d="M14 46h24l-3-18H17z" fill="C"/><path d="M26 28c-8 0-10-12-6-18 2 6 12 6 6 18z" fill="#ffc93c" stroke="#16203a" stroke-width="2"/><path d="M14 46h24l-3-18H17z" fill="none" stroke="#16203a" stroke-width="3" stroke-linejoin="round"/>'},
+  {t:"School events", d:"Field days, carnivals and class parties", c:"#2f6bff", i:'<path d="M8 22l18-10 18 10-18 10z" fill="C" stroke="#16203a" stroke-width="3" stroke-linejoin="round"/><path d="M16 27v10c6 5 14 5 20 0V27" fill="none" stroke="#16203a" stroke-width="3"/><path d="M44 22v12" stroke="#16203a" stroke-width="3"/>'},
+  {t:"Business events", d:"Company picnics and customer days", c:"#ffc93c", i:'<rect x="8" y="18" width="36" height="26" rx="4" fill="C" stroke="#16203a" stroke-width="3"/><path d="M19 18v-5h14v5M8 29h36" fill="none" stroke="#16203a" stroke-width="3"/>'},
+  {t:"Community events", d:"Feast days, fundraisers and gatherings", c:"#2bb3ee", i:'<circle cx="16" cy="20" r="6" fill="C" stroke="#16203a" stroke-width="3"/><circle cx="36" cy="20" r="6" fill="C" stroke="#16203a" stroke-width="3"/><path d="M6 44c0-9 5-14 10-14s10 5 10 14M26 44c0-9 5-14 10-14s10 5 10 14" fill="C" stroke="#16203a" stroke-width="3"/>'}
+];
+document.getElementById('evgrid').innerHTML = EVENTS.map(e =>
+  `<div class="ev"><svg viewBox="0 0 52 52">${e.i.replaceAll('"C"','"'+e.c+'"')}</svg><b>${e.t}</b><span>${e.d}</span></div>`).join('');
+
+/* one bounce castle, drawn into any box */
+const castle = (cx, base, w) => {
+  const h = w * .62, x0 = cx - w/2, ink = "#16203a", tw = w*.15;
+  const towers = [x0, x0 + w - tw];
+  let s = `<ellipse cx="${cx}" cy="${base+4}" rx="${w*.56}" ry="${w*.045}" fill="#16203a" opacity=".18"/>`;
+  // floor
+  s += `<rect x="${x0-w*.02}" y="${base-w*.08}" width="${w*1.04}" height="${w*.08}" rx="${w*.04}" fill="#2f6bff" stroke="${ink}" stroke-width="3"/>`;
+  // back wall with stripes
+  const wx = x0+tw*.6, ww = w-tw*1.2, wy = base-h*.78;
+  s += `<rect x="${wx}" y="${wy}" width="${ww}" height="${h*.72}" fill="#ffc93c" stroke="${ink}" stroke-width="3"/>`;
+  const n = 6;
+  for (let i = 0; i < n; i++) if (i % 2) s += `<rect x="${wx + ww*i/n}" y="${wy}" width="${ww/n}" height="${h*.72}" fill="#ff4545"/>`;
+  s += `<rect x="${wx}" y="${wy}" width="${ww}" height="${h*.72}" fill="none" stroke="${ink}" stroke-width="3"/>`;
+  // netting window
+  const nx = wx+ww*.18, nw = ww*.64, ny = wy+h*.12, nh = h*.34;
+  s += `<rect x="${nx}" y="${ny}" width="${nw}" height="${nh}" rx="${w*.03}" fill="#ffffff" opacity=".85" stroke="${ink}" stroke-width="3"/>`;
+  for (let i = 1; i < 8; i++) s += `<path d="M${nx+nw*i/8} ${ny}v${nh}" stroke="${ink}" stroke-width="1" opacity=".35"/>`;
+  for (let i = 1; i < 4; i++) s += `<path d="M${nx} ${ny+nh*i/4}h${nw}" stroke="${ink}" stroke-width="1" opacity=".35"/>`;
+  // roof scallops
+  const k = 5;
+  for (let i = 0; i < k; i++) s += `<path d="M${wx+ww*i/k} ${wy} q${ww/k/2} ${-h*.16} ${ww/k} 0z" fill="${i%2?'#2f6bff':'#ff4545'}" stroke="${ink}" stroke-width="3" stroke-linejoin="round"/>`;
+  // front bumper
+  s += `<rect x="${wx-2}" y="${base-w*.08-h*.12}" width="${ww+4}" height="${h*.12}" rx="${h*.06}" fill="#2f6bff" stroke="${ink}" stroke-width="3"/>`;
+  // towers
+  for (const tx of towers) {
+    const top = base - h - w*.02;
+    s += `<rect x="${tx}" y="${top}" width="${tw}" height="${base-top-w*.04}" rx="${tw/2}" fill="#ff4545" stroke="${ink}" stroke-width="3"/>`;
+    s += `<rect x="${tx+tw*.62}" y="${top+tw*.4}" width="${tw*.18}" height="${base-top-tw*1.2}" rx="${tw*.09}" fill="#16203a" opacity=".18"/>`;
+    s += `<rect x="${tx+tw*.18}" y="${top+tw*.4}" width="${tw*.12}" height="${base-top-tw*1.4}" rx="${tw*.06}" fill="#fff" opacity=".45"/>`;
+    s += `<path d="M${tx-tw*.05} ${top+tw*.2} q${tw*.55} ${-tw*1.3} ${tw*1.1} 0z" fill="#ffc93c" stroke="${ink}" stroke-width="3" stroke-linejoin="round"/>`;
+    s += `<path d="M${tx+tw/2} ${top-tw*.45}v${-tw*.5}" stroke="${ink}" stroke-width="3"/><path d="M${tx+tw/2} ${top-tw*.95}l${tw*.45} ${tw*.15}-${tw*.45} ${tw*.15}z" fill="#ff4545" stroke="${ink}" stroke-width="2" stroke-linejoin="round"/>`;
+  }
+  return `<g class="bob">${s}</g>`;
+};
+
+const bull = (cx, base, w) => {
+  const ink = "#16203a", by = base - w*.42;
+  let s = `<ellipse cx="${cx}" cy="${base}" rx="${w*.62}" ry="${w*.13}" fill="#ff4545" stroke="${ink}" stroke-width="3"/>`;
+  s += `<ellipse cx="${cx}" cy="${base-w*.03}" rx="${w*.5}" ry="${w*.08}" fill="#ffc93c" opacity=".55"/>`;
+  s += `<rect x="${cx-w*.05}" y="${by+w*.12}" width="${w*.1}" height="${base-by-w*.14}" fill="#8a93a8" stroke="${ink}" stroke-width="3"/>`;
+  s += `<ellipse cx="${cx}" cy="${by}" rx="${w*.36}" ry="${w*.16}" fill="#7a4a2a" stroke="${ink}" stroke-width="3"/>`;
+  s += `<ellipse cx="${cx-w*.02}" cy="${by-w*.07}" rx="${w*.22}" ry="${w*.05}" fill="#fff" opacity=".2"/>`;
+  s += `<path d="M${cx-w*.06} ${by-w*.15} q${w*.06} ${-w*.08} ${w*.14} 0" fill="#2f6bff" stroke="${ink}" stroke-width="3"/>`;
+  const hx = cx + w*.36, hy = by - w*.06;
+  s += `<ellipse cx="${hx}" cy="${hy}" rx="${w*.12}" ry="${w*.1}" fill="#7a4a2a" stroke="${ink}" stroke-width="3"/>`;
+  s += `<path d="M${hx-w*.06} ${hy-w*.08} q${-w*.04} ${-w*.12} ${w*.04} ${-w*.16} M${hx+w*.05} ${hy-w*.08} q${w*.1} ${-w*.08} ${w*.04} ${-w*.18}" fill="none" stroke="#f4ead8" stroke-width="${w*.03}" stroke-linecap="round"/>`;
+  s += `<circle cx="${hx+w*.04}" cy="${hy-w*.02}" r="${w*.014}" fill="${ink}"/>`;
+  s += `<path d="M${cx-w*.36} ${by} q${-w*.12} ${w*.02} ${-w*.1} ${w*.14}" fill="none" stroke="${ink}" stroke-width="3" stroke-linecap="round"/>`;
+  return s;
+};
+
+const sky = (W, H, id) => {
+  let rnd = 7, r = () => (rnd = rnd*16807 % 2147483647) / 2147483647;
+  let s = `<circle cx="${W*.86}" cy="${H*.2}" r="${Math.min(W,H)*.09}" fill="#ffc93c"/>`;
+  for (let i = 0; i < 3; i++) { const x = r()*W, y = H*(.1+r()*.2), c = 30+r()*40;
+    s += `<g fill="#ffffff" opacity=".85"><ellipse cx="${x}" cy="${y}" rx="${c}" ry="${c*.4}"/><ellipse cx="${x+c*.5}" cy="${y-c*.2}" rx="${c*.6}" ry="${c*.4}"/></g>`; }
+  const g = H*.72;
+  s += `<path d="M0 ${g} L0 ${H*.48} L${W*.08} ${H*.48} L${W*.12} ${H*.55} L${W*.24} ${H*.55} L${W*.27} ${H*.42} L${W*.4} ${H*.42} L${W*.44} ${g} Z" fill="var(--mesa2)"/>`;
+  s += `<path d="M${W*.55} ${g} L${W*.6} ${H*.5} L${W*.78} ${H*.5} L${W*.8} ${H*.58} L${W*.92} ${H*.58} L${W*.96} ${H*.46} L${W} ${H*.46} L${W} ${g} Z" fill="var(--mesa)"/>`;
+  s += `<rect x="0" y="${g}" width="${W}" height="${H-g}" fill="var(--sand)"/>`;
+  s += `<path d="M0 ${g}h${W}" stroke="#16203a" stroke-width="3"/>`;
+  return s;
+};
+
+const draw = () => {
+  const sc = document.getElementById('scene'), W = sc.clientWidth, H = sc.clientHeight;
+  if (W && H) {
+    const base = H*.93, cw = Math.min(W*.5, H*1.25);
+    let s = sky(W, H);
+    s += castle(W*.5, base, cw);
+    if (W > 560) s += bull(W*.84, base - 4, Math.min(W*.16, H*.42));
+    if (W > 560) s += `<g opacity=".9">${castle(W*.14, base - 6, Math.min(W*.18, H*.45))}</g>`;
+    sc.innerHTML = s;
+  }
+  const a = document.getElementById('artCastle');
+  if (a.clientWidth) a.innerHTML = `<rect width="100%" height="100%" fill="var(--sky2)"/><rect y="${a.clientHeight*.8}" width="100%" height="${a.clientHeight*.2}" fill="var(--sand)"/>` + castle(a.clientWidth/2, a.clientHeight*.9, Math.min(a.clientWidth*.6, a.clientHeight*1.15));
+  const b = document.getElementById('artBull');
+  if (b.clientWidth) b.innerHTML = `<rect width="100%" height="100%" fill="var(--sky2)"/><rect y="${b.clientHeight*.8}" width="100%" height="${b.clientHeight*.2}" fill="var(--sand)"/>` + bull(b.clientWidth/2 - 10, b.clientHeight*.86, Math.min(b.clientWidth*.42, b.clientHeight*.95));
+};
+const ro = new ResizeObserver(draw);
+for (const id of ['scene','artCastle','artBull']) ro.observe(document.getElementById(id));
+draw();
+}
+</script>
+</body>
+</html>
