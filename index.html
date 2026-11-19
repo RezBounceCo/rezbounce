@@ -4,104 +4,107 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Rez Bounce Co</title>
+<meta name="description" content="Rez Bounce Co: bounce house and mechanical bull rentals, delivering from Jemez Pueblo, NM.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Lilita+One&family=Nunito:wght@400;600;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Barlow:wght@400;600;700&display=swap" rel="stylesheet">
 <style>
-/* VOICE occasion: a fun family party business, bright and friendly
-   IDEA a hand-painted party-rental sign: big rounded letters, sunny sky, inflatable stripes
-   PICTURE a big bounce castle under a desert sky with mesas, full width under the title
-   COLOUR sky blue dominant, sunshine yellow support, bounce red accent; white content ground
-   TYPE Lilita One display + Nunito text
-   LAYOUT laptop: title across the top of the sky band, scene full-bleed beneath; phone: same order, stacked cards */
-:root{color-scheme:light dark;--bg:light-dark(#ffffff,#141230);--ink:light-dark(#16203a,#f4f2ff);--soft:light-dark(#4a5470,#c3c0e0);--sky:light-dark(#2bb3ee,#1d1a52);--sky2:light-dark(#9fe0ff,#3a2f7a);--sun:#ffc93c;--red:#ff4545;--blue:#2f6bff;--card:light-dark(#f2faff,#1f1c44);--line:light-dark(#d6ecf7,#34306a);--mesa:light-dark(#d9774a,#7a3b52);--mesa2:light-dark(#efa274,#5a2e55);--sand:light-dark(#f7d9a2,#3b2f55)}
+/* VOICE occasion: a local party-rental business, loud and friendly like its logo
+   IDEA the Rez Bounce Co banner: black ground, brushed red and white lettering, yellow strip
+   PICTURE the real logo up top, then his own photos of each rental
+   COLOUR black dominant in bands, red #e8321c support, yellow #f7c919 accent; white content ground
+   TYPE Anton (matches the banner strip lettering) + Barlow
+   LAYOUT logo band, yellow strip, rentals grid of 4 photos; phone stacks to 2 then 1 */
+:root{color-scheme:light dark;--bg:light-dark(#ffffff,#121212);--ink:light-dark(#141414,#f3f3f3);--soft:light-dark(#555,#b8b8b8);--card:light-dark(#f6f6f4,#1d1d1d);--line:light-dark(#e2e2de,#333);--red:#e8321c;--yel:#f7c919;--blk:#0d0d0d}
 :root[data-theme=light]{color-scheme:light}
 :root[data-theme=dark]{color-scheme:dark}
 *{box-sizing:border-box;min-width:0}
-html{scroll-padding-top:80px;scroll-behavior:smooth}
-body{margin:0;background:var(--bg);color:var(--ink);font:17px/1.55 Nunito,system-ui,sans-serif;overflow-x:clip}
-h1,h2,h3{font-family:"Lilita One",Nunito,system-ui,sans-serif;font-weight:400;line-height:1.05;letter-spacing:-.01em;margin:0;text-wrap:balance}
-h1{font-size:clamp(40px,7vw,76px)}
-h2{font-size:clamp(32px,4.4vw,48px);margin-bottom:12px}
-h3{font-size:26px;margin-bottom:6px}
-p{margin:0 0 12px;max-width:62ch}
+html{scroll-padding-top:76px;scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--ink);font:17px/1.55 Barlow,system-ui,sans-serif;overflow-x:clip}
+img{max-width:100%;display:block}
+h1,h2,h3{font-family:Anton,Impact,sans-serif;font-weight:400;line-height:1.05;letter-spacing:.01em;margin:0;text-wrap:balance}
+h1{font-size:clamp(30px,4.6vw,50px)}
+h2{font-size:clamp(32px,4.4vw,48px);margin-bottom:10px}
+h3{font-size:26px;margin-bottom:4px}
+p{margin:0 0 12px;max-width:64ch}
 a{color:inherit}
 .wrap{max-width:1240px;margin:0 auto}
 .band{padding-block:clamp(36px,5vw,72px);padding-inline:max(5vw,16px)}
-.btn{display:inline-flex;align-items:center;justify-content:center;min-height:48px;padding:10px 24px;border-radius:999px;font:800 17px Nunito,sans-serif;text-decoration:none;border:3px solid var(--ink);background:var(--sun);color:#16203a;box-shadow:0 4px 0 var(--ink);transition:transform .12s,box-shadow .12s;white-space:nowrap}
-.btn:hover{transform:translateY(-2px);box-shadow:0 6px 0 var(--ink)}
-.btn:active{transform:translateY(3px);box-shadow:0 1px 0 var(--ink)}
-.btn:focus-visible{outline:3px solid var(--red);outline-offset:3px}
-.btn.alt{background:var(--bg);color:var(--ink)}
-.btn.red{background:var(--red);color:#fff}
-nav{position:sticky;top:0;z-index:5;background:var(--sky);border-bottom:3px solid var(--ink)}
-nav .wrap{display:flex;flex-wrap:wrap;align-items:center;gap:10px 22px;padding:10px max(5vw,16px)}
-.logo{font:400 26px "Lilita One",sans-serif;text-decoration:none;color:#fff;-webkit-text-stroke:1px #16203a;paint-order:stroke;text-shadow:2px 2px 0 #16203a;margin-right:auto}
+.btn{display:inline-flex;align-items:center;justify-content:center;min-height:48px;padding:10px 24px;border-radius:8px;font:700 17px Barlow,sans-serif;text-decoration:none;background:var(--red);color:#fff;border:2px solid var(--red);white-space:nowrap;transition:transform .12s,background .12s}
+.btn:hover{transform:translateY(-2px);background:#c92812}
+.btn:focus-visible{outline:3px solid var(--yel);outline-offset:3px}
+.btn.ghost{background:transparent;color:#fff;border-color:#fff}
+.btn.ghost:hover{background:#fff;color:var(--blk)}
+nav{position:sticky;top:0;z-index:5;background:var(--blk);color:#fff;border-bottom:4px solid var(--yel)}
+nav .wrap{display:flex;flex-wrap:wrap;align-items:center;gap:8px 22px;padding:10px max(5vw,16px)}
+.logo{font:400 24px Anton,Impact,sans-serif;text-decoration:none;margin-right:auto;letter-spacing:.02em}
+.logo b{color:var(--red);font-weight:400}
 nav .links{display:flex;flex-wrap:wrap;gap:4px 18px}
-nav .links a{color:#fff;font-weight:800;text-decoration:none;padding:6px 0}
-nav .links a:hover{text-decoration:underline;text-decoration-thickness:3px}
+nav .links a{font-weight:700;text-decoration:none;padding:6px 0}
+nav .links a:hover{color:var(--yel)}
 nav .btn{min-height:44px;padding:6px 18px;font-size:16px}
-.hero{background:linear-gradient(var(--sky),var(--sky2));color:#fff;padding-bottom:0}
-.hero .top{display:grid;grid-template-columns:minmax(0,1.4fr) minmax(0,1fr);gap:20px 40px;align-items:end}
-.hero h1{color:#fff;text-shadow:3px 3px 0 #16203a}
-.hero p{font-size:19px;font-weight:600;color:#fff;margin:0}
-.hero .cta{display:flex;flex-wrap:wrap;gap:12px;margin-top:18px}
-.scene{position:relative;height:clamp(240px,34vw,420px);margin-top:18px;margin-inline:calc(-1*max(5vw,16px))}
-.scene svg{position:absolute;inset:0;width:100%;height:100%;display:block}
-.bob{animation:bob 2.6s ease-in-out infinite;transform-origin:50% 100%;transform-box:fill-box}
-@keyframes bob{50%{transform:scaleY(.97) translateY(4px)}}
-@media(prefers-reduced-motion:reduce){.bob{animation:none}html{scroll-behavior:auto}}
-.ribbon{background:var(--sun);color:#16203a;border-block:3px solid var(--ink);font-weight:800}
-.ribbon .wrap{display:flex;flex-wrap:wrap;justify-content:space-between;gap:8px 24px;padding:14px max(5vw,16px)}
-.ribbon span{white-space:nowrap}
-.cards{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:24px;margin-top:24px}
-.card{background:var(--card);border:3px solid var(--ink);border-radius:22px;overflow:hidden;display:flex;flex-direction:column}
-.card .art{height:220px;background:var(--sky2);border-bottom:3px solid var(--ink);position:relative}
-.card .art svg{position:absolute;inset:0;width:100%;height:100%}
-.card .body{padding:20px 22px 24px;display:flex;flex-direction:column;flex:1}
-.card ul{margin:4px 0 18px;padding-left:20px}
-.card li{margin-bottom:4px}
-.tag{display:inline-block;align-self:flex-start;background:var(--red);color:#fff;font-weight:800;border-radius:999px;padding:3px 14px;margin-bottom:10px;white-space:nowrap}
-.card .btn{margin-top:auto;align-self:flex-start}
-.events{background:var(--sky);color:#fff}
-.events h2{color:#fff;text-shadow:2px 2px 0 #16203a}
-.evgrid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:16px;margin-top:20px}
-.ev{background:var(--bg);color:var(--ink);border:3px solid var(--ink);border-radius:18px;padding:18px}
-.ev svg{width:52px;height:52px;display:block;margin-bottom:8px}
-.ev b{display:block;font-size:19px;line-height:1.2;margin-bottom:4px}
-.ev span{color:var(--soft);font-size:15px}
-.steps{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:24px;margin-top:24px;counter-reset:s}
-.step{position:relative;padding-top:64px}
-.step::before{counter-increment:s;content:counter(s);position:absolute;top:0;left:0;width:52px;height:52px;border-radius:50%;background:var(--sun);border:3px solid var(--ink);display:grid;place-items:center;font:400 28px "Lilita One",sans-serif;color:#16203a}
-.step h3{font-size:24px}
-.good{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:28px 48px;align-items:start}
-.facts{display:grid;gap:12px;margin:0;padding:0;list-style:none}
-.facts li{background:var(--card);border:2px solid var(--line);border-radius:14px;padding:14px 18px}
-.facts b{display:block;font-size:18px}
-.closer{background:var(--red);color:#fff;text-align:left}
+.hero{background:var(--blk);color:#fff}
+.hero .banner{border-radius:6px;overflow:hidden;margin:0 auto 26px;max-width:1100px}
+.hero .banner img{width:100%}
+.hero .row{display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:18px 40px;max-width:1100px;margin:0 auto}
+.hero .row div{max-width:640px}
+.hero p{color:#ddd;font-size:19px;margin:10px 0 0}
+.hero .cta{display:flex;flex-wrap:wrap;gap:12px}
+.strip{background:var(--yel);color:var(--blk);font:400 clamp(17px,2vw,22px) Anton,Impact,sans-serif;letter-spacing:.03em}
+.strip .wrap{display:flex;flex-wrap:wrap;justify-content:center;gap:6px 28px;padding:12px max(5vw,16px);text-align:center}
+.strip span{white-space:nowrap}
+.strip i{color:var(--red);font-style:normal}
+.grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:20px;margin-top:22px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:12px;overflow:hidden;display:flex;flex-direction:column}
+.card .ph{aspect-ratio:3/4;background:#ccc;overflow:hidden}
+.card .ph img{width:100%;height:100%;object-fit:cover;transition:transform .3s}
+.card:hover .ph img{transform:scale(1.04)}
+.card .body{padding:16px 18px 20px;display:flex;flex-direction:column;flex:1}
+.card p{font-size:16px;color:var(--soft)}
+.tag{display:inline-block;align-self:flex-start;background:var(--blk);color:var(--yel);font-weight:700;font-size:14px;border-radius:4px;padding:2px 10px;margin-bottom:10px;white-space:nowrap}
+.card .btn{margin-top:auto;min-height:44px;font-size:16px}
+.events{background:var(--red);color:#fff}
+.evgrid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px;margin-top:18px}
+.ev{background:rgba(0,0,0,.18);border:2px solid rgba(255,255,255,.35);border-radius:10px;padding:16px 18px}
+.ev b{display:block;font:400 22px Anton,Impact,sans-serif;letter-spacing:.02em;margin-bottom:2px}
+.ev span{font-size:15px;color:#ffe9e4}
+.steps{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:24px;margin-top:22px;counter-reset:s}
+.step{position:relative;padding-top:62px}
+.step::before{counter-increment:s;content:counter(s);position:absolute;top:0;left:0;width:50px;height:50px;border-radius:50%;background:var(--yel);color:var(--blk);display:grid;place-items:center;font:400 26px Anton,Impact,sans-serif}
+.two{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:32px 48px;align-items:start}
+.panel{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:22px 24px}
+.panel h3{margin-bottom:12px}
+table{width:100%;border-collapse:collapse;font-size:16px}
+td{padding:9px 0;border-bottom:1px solid var(--line);vertical-align:top}
+td:last-child{text-align:right;font-weight:700;padding-left:16px;white-space:nowrap}
+tr:last-child td{border-bottom:0}
+.note{font-size:15px;color:var(--soft);margin:14px 0 0}
+ol.terms{margin:0;padding-left:22px}
+ol.terms li{margin-bottom:10px}
+ol.terms b{display:block}
+.closer{background:var(--blk);color:#fff;border-top:4px solid var(--yel)}
 .closer .wrap{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:20px}
-.closer h2{color:#fff;margin:0;text-shadow:2px 2px 0 #16203a}
-.closer p{margin:6px 0 0;font-weight:600}
-footer{background:var(--ink);color:var(--bg)}
-footer .wrap{display:grid;grid-template-columns:minmax(0,1.2fr) minmax(0,1fr) minmax(0,1fr);gap:24px}
-footer h3{font-size:22px;color:var(--sun)}
-footer p{margin:0 0 6px}
-footer small{display:block;margin-top:24px;opacity:.75;font-size:14px}
-.nowrap{white-space:nowrap}
-@media(max-width:900px){.evgrid{grid-template-columns:repeat(2,minmax(0,1fr))}footer .wrap{grid-template-columns:minmax(0,1fr) minmax(0,1fr)}}
-@media(max-width:760px){.hero .top{grid-template-columns:minmax(0,1fr)}.cards,.good{grid-template-columns:minmax(0,1fr)}.steps{grid-template-columns:minmax(0,1fr);gap:16px}.step{padding:0 0 0 70px;min-height:56px}}
-@media(max-width:600px){nav .links{display:none}.evgrid{grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:10px}.ev{padding:14px}footer .wrap{grid-template-columns:minmax(0,1fr)}.ribbon .wrap{justify-content:flex-start}}
+.closer h2{margin:0}
+.closer h2 b{color:var(--red);font-weight:400}
+.closer p{margin:8px 0 0;color:#ddd}
+footer{background:#000;color:#cfcfcf;font-size:15px}
+footer .wrap{display:flex;flex-wrap:wrap;justify-content:space-between;gap:10px 24px}
+footer b{color:#fff}
+@media(max-width:1000px){.grid{grid-template-columns:repeat(2,minmax(0,1fr))}.evgrid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:760px){.two{grid-template-columns:minmax(0,1fr)}.steps{grid-template-columns:minmax(0,1fr);gap:16px}.step{padding:0 0 0 68px;min-height:52px}}
+@media(max-width:600px){nav .links{display:none}.grid{gap:12px}.card .body{padding:12px 12px 14px}.card h3{font-size:21px}.card p{font-size:15px}.card .btn{padding:6px 10px;white-space:normal;text-align:center}.evgrid{gap:10px}}
+@media(max-width:380px){.grid{grid-template-columns:minmax(0,1fr)}}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}.btn,.card .ph img{transition:none}}
 </style>
 </head>
 <body>
 <nav>
   <div class="wrap">
-    <a class="logo" href="#top">Rez Bounce Co</a>
+    <a class="logo" href="#top">Rez <b>Bounce</b> Co</a>
     <div class="links">
       <a href="#rentals">Rentals</a>
       <a href="#how">How it works</a>
-      <a href="#know">Good to know</a>
-      <a href="#contact">Contact</a>
+      <a href="#fees">Fees &amp; terms</a>
     </div>
     <a class="btn book" href="#">Book now</a>
   </div>
@@ -109,69 +112,45 @@ footer small{display:block;margin-top:24px;opacity:.75;font-size:14px}
 
 <header class="hero band" id="top">
   <div class="wrap">
-    <div class="top">
-      <h1>Bounce houses and a mechanical bull for your next party</h1>
+    <div class="banner"><img src="images/logo.jpg" alt="Rez Bounce Co: bounce house rentals and mechanical bull" width="1272" height="304"></div>
+    <div class="row">
       <div>
-        <p>Birthdays, school days, work events and community gatherings. Tell us about your event and we'll send you a quote.</p>
-        <div class="cta">
-          <a class="btn book" href="#">Request a booking</a>
-          <a class="btn alt" href="#rentals">See rentals</a>
-        </div>
+        <h1>Bounce houses and a mechanical bull for your next event</h1>
+        <p>Birthdays, school days, work events and community gatherings. Delivering from Jemez Pueblo.</p>
+      </div>
+      <div class="cta">
+        <a class="btn book" href="#">Request a booking</a>
+        <a class="btn ghost" href="#rentals">See rentals</a>
       </div>
     </div>
   </div>
-  <div class="scene" aria-hidden="true"><svg id="scene"></svg></div>
 </header>
 
-<div class="ribbon">
+<div class="strip">
   <div class="wrap">
-    <span>Bounce houses: 4-hour minimum</span>
-    <span>Mechanical bull: 3-hour minimum</span>
-    <span>Delivery and setup available</span>
+    <span>Bounce houses: 4-hour minimum</span><i>|</i>
+    <span>Mechanical bull: 3-hour minimum</span><i>|</i>
+    <span>Setup &amp; takedown included in your quote</span>
   </div>
 </div>
 
 <section class="band" id="rentals">
   <div class="wrap">
     <h2>Our rentals</h2>
-    <p>Pick what fits your crowd. Extra hours can be added to any rental.</p>
-    <div class="cards">
-      <article class="card">
-        <div class="art"><svg id="artCastle" aria-hidden="true"></svg></div>
-        <div class="body">
-          <span class="tag">4-hour minimum</span>
-          <h3>Bounce houses</h3>
-          <p>The classic party centerpiece. Kids bounce, parents relax, everybody sleeps well that night.</p>
-          <ul>
-            <li>Great for birthdays and school events</li>
-            <li>Delivered, set up and taken down</li>
-            <li>Extra hours available</li>
-          </ul>
-          <a class="btn book" href="#">Request a bounce house</a>
-        </div>
-      </article>
-      <article class="card">
-        <div class="art"><svg id="artBull" aria-hidden="true"></svg></div>
-        <div class="body">
-          <span class="tag">3-hour minimum</span>
-          <h3>Mechanical bull</h3>
-          <p>See who can hang on the longest. A crowd favorite for teens, grown-ups and community events.</p>
-          <ul>
-            <li>Comes with a padded landing mat</li>
-            <li>Big hit at fairs and company parties</li>
-            <li>Extra hours available</li>
-          </ul>
-          <a class="btn book" href="#">Request the bull</a>
-        </div>
-      </article>
-    </div>
+    <p>Pick one or mix and match. Extra hours can be added to any rental.</p>
+    <div class="grid" id="grid"></div>
   </div>
 </section>
 
 <section class="band events">
   <div class="wrap">
     <h2>Events we bounce</h2>
-    <div class="evgrid" id="evgrid"></div>
+    <div class="evgrid">
+      <div class="ev"><b>Birthdays</b><span>Parties and personal celebrations</span></div>
+      <div class="ev"><b>Schools</b><span>Field days, carnivals and class events</span></div>
+      <div class="ev"><b>Businesses</b><span>Company picnics and corporate events</span></div>
+      <div class="ev"><b>Community</b><span>Organization events and gatherings</span></div>
+    </div>
   </div>
 </section>
 
@@ -179,155 +158,87 @@ footer small{display:block;margin-top:24px;opacity:.75;font-size:14px}
   <div class="wrap">
     <h2>How booking works</h2>
     <div class="steps">
-      <div class="step"><h3>Send a request</h3><p>Fill out our short booking form with your date, event type and what you'd like to rent.</p></div>
-      <div class="step"><h3>Get your quote</h3><p>We check availability and send a final quote, including any delivery, setup or extra-hour fees.</p></div>
-      <div class="step"><h3>You're booked</h3><p>Once we approve your request, your date is locked in. Then all that's left is the fun part.</p></div>
+      <div class="step"><h3>Send a request</h3><p>Fill out the booking form with your date, times, location and the rentals you want. Include your Facebook name or Instagram username so we can find your messages.</p></div>
+      <div class="step"><h3>Get your quote</h3><p>We check availability and message you a final quote with rental, setup, travel and any generator or operator fees.</p></div>
+      <div class="step"><h3>Lock it in</h3><p>Once your request is approved, a deposit may be needed to hold your date. Full payment is due before setup.</p></div>
     </div>
     <p style="margin-top:22px"><a class="btn book" href="#">Start your request</a></p>
   </div>
 </section>
 
-<section class="band" id="know" style="background:var(--card)">
-  <div class="wrap good">
+<section class="band" id="fees" style="background:var(--card)">
+  <div class="wrap two">
     <div>
-      <h2>Good to know</h2>
-      <p>Every event is a little different, so your final price comes after we look over your request. Here's what can go into it.</p>
+      <h2>Fees</h2>
+      <div class="panel">
+        <h3>Setup &amp; takedown</h3>
+        <table>
+          <tr><td>Bounce house rental</td><td>$25 per booking</td></tr>
+          <tr><td>Mechanical bull rental</td><td>$50 per booking</td></tr>
+          <tr><td>Bounce house + mechanical bull package</td><td>$50 total</td></tr>
+        </table>
+        <h3 style="margin-top:22px">Other fees</h3>
+        <table>
+          <tr><td>Mechanical bull operator</td><td>$30/hour</td></tr>
+          <tr><td>Travel &amp; delivery</td><td>Based on distance from Jemez Pueblo</td></tr>
+          <tr><td>Generator, if you have no outlet</td><td>Added if requested</td></tr>
+        </table>
+        <p class="note">All rentals need a working electrical outlet. Every fee is listed in your final quote before your booking is confirmed.</p>
+      </div>
     </div>
-    <ul class="facts">
-      <li><b>Minimum rental times</b>4 hours for bounce houses, 3 hours for the mechanical bull.</li>
-      <li><b>Extra hours</b>Want it longer? Additional hours are charged on top of the minimum.</li>
-      <li><b>Delivery, setup and generators</b>These may add fees depending on where your event is and whether power is nearby.</li>
-      <li><b>Not booked until approved</b>Sending the form is a request. Your booking is confirmed once Rez Bounce Co approves it.</li>
-    </ul>
+    <div>
+      <h2>Rental terms</h2>
+      <div class="panel">
+        <ol class="terms">
+          <li><b>Booking approval</b>Sending the form does not guarantee a reservation. All bookings depend on availability and approval.</li>
+          <li><b>Pricing &amp; fees</b>Final quotes include rental, setup, delivery, generator and other service fees.</li>
+          <li><b>Payment</b>A deposit may be required to hold your reservation. Full payment is due before setup.</li>
+          <li><b>Weather</b>Rentals may be canceled or rescheduled for rain, high winds or other unsafe weather.</li>
+          <li><b>Equipment &amp; safety</b>Follow all safety rules and rental instructions. The mechanical bull needs extra safety steps and rider waivers.</li>
+          <li><b>Cancellations</b>Cancellation and deposit policies are shared before your booking is confirmed.</li>
+        </ol>
+      </div>
+    </div>
   </div>
 </section>
 
 <section class="band closer">
   <div class="wrap">
     <div>
-      <h2>Got a date in mind?</h2>
-      <p>Requests are first come, first served. Weekends fill up fast.</p>
+      <h2>Got a date? <b>Let's bounce.</b></h2>
+      <p>Send your request, or message Rez Bounce Co on Facebook or Instagram.</p>
     </div>
     <a class="btn book" href="#">Book now</a>
   </div>
 </section>
 
-<footer class="band" id="contact">
+<footer class="band" style="padding-block:24px">
   <div class="wrap">
-    <div>
-      <h3>Rez Bounce Co</h3>
-      <p>Bounce house and mechanical bull rentals for parties, schools, businesses and community events.</p>
-    </div>
-    <div>
-      <h3>Contact</h3>
-      <p>Call or text <span class="nowrap">(505) 555-0142</span></p>
-      <p>rezbounceco@example.com</p>
-    </div>
-    <div>
-      <h3>Book</h3>
-      <p><a class="book" href="#">Booking request form</a></p>
-      <p>Final quote after review</p>
-    </div>
+    <span><b>Rez Bounce Co</b> · Bounce house &amp; mechanical bull rentals · Jemez Pueblo, NM</span>
+    <span>Questions? Message us on Facebook or Instagram.</span>
   </div>
-  <div class="wrap"><small>Phone and email are sample details for this draft.</small></div>
 </footer>
 
 <script>
 {
 const FORM = "https://docs.google.com/forms/d/e/1FAIpQLSeKIq2zjS9GlfX8J7WIW54w37LfnM9_XHvW8Zv_4jv2V0mZkg/viewform";
-for (const a of document.querySelectorAll('a.book')) { a.href = FORM; a.target = "_blank"; a.rel = "noopener"; }
-
-const EVENTS = [
-  {t:"Birthday parties", d:"Personal celebrations of every size", c:"#ff4545", i:'<path d="M14 46h24l-3-18H17z" fill="C"/><path d="M26 28c-8 0-10-12-6-18 2 6 12 6 6 18z" fill="#ffc93c" stroke="#16203a" stroke-width="2"/><path d="M14 46h24l-3-18H17z" fill="none" stroke="#16203a" stroke-width="3" stroke-linejoin="round"/>'},
-  {t:"School events", d:"Field days, carnivals and class parties", c:"#2f6bff", i:'<path d="M8 22l18-10 18 10-18 10z" fill="C" stroke="#16203a" stroke-width="3" stroke-linejoin="round"/><path d="M16 27v10c6 5 14 5 20 0V27" fill="none" stroke="#16203a" stroke-width="3"/><path d="M44 22v12" stroke="#16203a" stroke-width="3"/>'},
-  {t:"Business events", d:"Company picnics and customer days", c:"#ffc93c", i:'<rect x="8" y="18" width="36" height="26" rx="4" fill="C" stroke="#16203a" stroke-width="3"/><path d="M19 18v-5h14v5M8 29h36" fill="none" stroke="#16203a" stroke-width="3"/>'},
-  {t:"Community events", d:"Feast days, fundraisers and gatherings", c:"#2bb3ee", i:'<circle cx="16" cy="20" r="6" fill="C" stroke="#16203a" stroke-width="3"/><circle cx="36" cy="20" r="6" fill="C" stroke="#16203a" stroke-width="3"/><path d="M6 44c0-9 5-14 10-14s10 5 10 14M26 44c0-9 5-14 10-14s10 5 10 14" fill="C" stroke="#16203a" stroke-width="3"/>'}
+const RENTALS = [
+  {name:"Pink Castle Jumper", img:"pink-castle.jpg", tag:"4-hour minimum", text:"Turrets, flowers and a big bounce floor. A birthday favorite.", alt:"Pink and purple castle bounce house with turrets"},
+  {name:"Rocket Jumper", img:"rocket.jpg", tag:"4-hour minimum", text:"Red rockets and a blue-and-silver bounce house ready for liftoff.", alt:"Rocket-themed bounce house in red, blue and silver"},
+  {name:"Horse Jumper", img:"horse.jpg", tag:"4-hour minimum", text:"A western-style bounce house with a horse head on top.", alt:"Horse-themed bounce house with a horse head on the roof"},
+  {name:"Mechanical Bull", img:"bull.jpg", tag:"3-hour minimum", text:"Ride it on a padded inflatable ring. Operator available, waivers required.", alt:"Mechanical bull inside a green inflatable ring with log-style posts"}
 ];
-document.getElementById('evgrid').innerHTML = EVENTS.map(e =>
-  `<div class="ev"><svg viewBox="0 0 52 52">${e.i.replaceAll('"C"','"'+e.c+'"')}</svg><b>${e.t}</b><span>${e.d}</span></div>`).join('');
-
-/* one bounce castle, drawn into any box */
-const castle = (cx, base, w) => {
-  const h = w * .62, x0 = cx - w/2, ink = "#16203a", tw = w*.15;
-  const towers = [x0, x0 + w - tw];
-  let s = `<ellipse cx="${cx}" cy="${base+4}" rx="${w*.56}" ry="${w*.045}" fill="#16203a" opacity=".18"/>`;
-  // floor
-  s += `<rect x="${x0-w*.02}" y="${base-w*.08}" width="${w*1.04}" height="${w*.08}" rx="${w*.04}" fill="#2f6bff" stroke="${ink}" stroke-width="3"/>`;
-  // back wall with stripes
-  const wx = x0+tw*.6, ww = w-tw*1.2, wy = base-h*.78;
-  s += `<rect x="${wx}" y="${wy}" width="${ww}" height="${h*.72}" fill="#ffc93c" stroke="${ink}" stroke-width="3"/>`;
-  const n = 6;
-  for (let i = 0; i < n; i++) if (i % 2) s += `<rect x="${wx + ww*i/n}" y="${wy}" width="${ww/n}" height="${h*.72}" fill="#ff4545"/>`;
-  s += `<rect x="${wx}" y="${wy}" width="${ww}" height="${h*.72}" fill="none" stroke="${ink}" stroke-width="3"/>`;
-  // netting window
-  const nx = wx+ww*.18, nw = ww*.64, ny = wy+h*.12, nh = h*.34;
-  s += `<rect x="${nx}" y="${ny}" width="${nw}" height="${nh}" rx="${w*.03}" fill="#ffffff" opacity=".85" stroke="${ink}" stroke-width="3"/>`;
-  for (let i = 1; i < 8; i++) s += `<path d="M${nx+nw*i/8} ${ny}v${nh}" stroke="${ink}" stroke-width="1" opacity=".35"/>`;
-  for (let i = 1; i < 4; i++) s += `<path d="M${nx} ${ny+nh*i/4}h${nw}" stroke="${ink}" stroke-width="1" opacity=".35"/>`;
-  // roof scallops
-  const k = 5;
-  for (let i = 0; i < k; i++) s += `<path d="M${wx+ww*i/k} ${wy} q${ww/k/2} ${-h*.16} ${ww/k} 0z" fill="${i%2?'#2f6bff':'#ff4545'}" stroke="${ink}" stroke-width="3" stroke-linejoin="round"/>`;
-  // front bumper
-  s += `<rect x="${wx-2}" y="${base-w*.08-h*.12}" width="${ww+4}" height="${h*.12}" rx="${h*.06}" fill="#2f6bff" stroke="${ink}" stroke-width="3"/>`;
-  // towers
-  for (const tx of towers) {
-    const top = base - h - w*.02;
-    s += `<rect x="${tx}" y="${top}" width="${tw}" height="${base-top-w*.04}" rx="${tw/2}" fill="#ff4545" stroke="${ink}" stroke-width="3"/>`;
-    s += `<rect x="${tx+tw*.62}" y="${top+tw*.4}" width="${tw*.18}" height="${base-top-tw*1.2}" rx="${tw*.09}" fill="#16203a" opacity=".18"/>`;
-    s += `<rect x="${tx+tw*.18}" y="${top+tw*.4}" width="${tw*.12}" height="${base-top-tw*1.4}" rx="${tw*.06}" fill="#fff" opacity=".45"/>`;
-    s += `<path d="M${tx-tw*.05} ${top+tw*.2} q${tw*.55} ${-tw*1.3} ${tw*1.1} 0z" fill="#ffc93c" stroke="${ink}" stroke-width="3" stroke-linejoin="round"/>`;
-    s += `<path d="M${tx+tw/2} ${top-tw*.45}v${-tw*.5}" stroke="${ink}" stroke-width="3"/><path d="M${tx+tw/2} ${top-tw*.95}l${tw*.45} ${tw*.15}-${tw*.45} ${tw*.15}z" fill="#ff4545" stroke="${ink}" stroke-width="2" stroke-linejoin="round"/>`;
-  }
-  return `<g class="bob">${s}</g>`;
-};
-
-const bull = (cx, base, w) => {
-  const ink = "#16203a", by = base - w*.42;
-  let s = `<ellipse cx="${cx}" cy="${base}" rx="${w*.62}" ry="${w*.13}" fill="#ff4545" stroke="${ink}" stroke-width="3"/>`;
-  s += `<ellipse cx="${cx}" cy="${base-w*.03}" rx="${w*.5}" ry="${w*.08}" fill="#ffc93c" opacity=".55"/>`;
-  s += `<rect x="${cx-w*.05}" y="${by+w*.12}" width="${w*.1}" height="${base-by-w*.14}" fill="#8a93a8" stroke="${ink}" stroke-width="3"/>`;
-  s += `<ellipse cx="${cx}" cy="${by}" rx="${w*.36}" ry="${w*.16}" fill="#7a4a2a" stroke="${ink}" stroke-width="3"/>`;
-  s += `<ellipse cx="${cx-w*.02}" cy="${by-w*.07}" rx="${w*.22}" ry="${w*.05}" fill="#fff" opacity=".2"/>`;
-  s += `<path d="M${cx-w*.06} ${by-w*.15} q${w*.06} ${-w*.08} ${w*.14} 0" fill="#2f6bff" stroke="${ink}" stroke-width="3"/>`;
-  const hx = cx + w*.36, hy = by - w*.06;
-  s += `<ellipse cx="${hx}" cy="${hy}" rx="${w*.12}" ry="${w*.1}" fill="#7a4a2a" stroke="${ink}" stroke-width="3"/>`;
-  s += `<path d="M${hx-w*.06} ${hy-w*.08} q${-w*.04} ${-w*.12} ${w*.04} ${-w*.16} M${hx+w*.05} ${hy-w*.08} q${w*.1} ${-w*.08} ${w*.04} ${-w*.18}" fill="none" stroke="#f4ead8" stroke-width="${w*.03}" stroke-linecap="round"/>`;
-  s += `<circle cx="${hx+w*.04}" cy="${hy-w*.02}" r="${w*.014}" fill="${ink}"/>`;
-  s += `<path d="M${cx-w*.36} ${by} q${-w*.12} ${w*.02} ${-w*.1} ${w*.14}" fill="none" stroke="${ink}" stroke-width="3" stroke-linecap="round"/>`;
-  return s;
-};
-
-const sky = (W, H, id) => {
-  let rnd = 7, r = () => (rnd = rnd*16807 % 2147483647) / 2147483647;
-  let s = `<circle cx="${W*.86}" cy="${H*.2}" r="${Math.min(W,H)*.09}" fill="#ffc93c"/>`;
-  for (let i = 0; i < 3; i++) { const x = r()*W, y = H*(.1+r()*.2), c = 30+r()*40;
-    s += `<g fill="#ffffff" opacity=".85"><ellipse cx="${x}" cy="${y}" rx="${c}" ry="${c*.4}"/><ellipse cx="${x+c*.5}" cy="${y-c*.2}" rx="${c*.6}" ry="${c*.4}"/></g>`; }
-  const g = H*.72;
-  s += `<path d="M0 ${g} L0 ${H*.48} L${W*.08} ${H*.48} L${W*.12} ${H*.55} L${W*.24} ${H*.55} L${W*.27} ${H*.42} L${W*.4} ${H*.42} L${W*.44} ${g} Z" fill="var(--mesa2)"/>`;
-  s += `<path d="M${W*.55} ${g} L${W*.6} ${H*.5} L${W*.78} ${H*.5} L${W*.8} ${H*.58} L${W*.92} ${H*.58} L${W*.96} ${H*.46} L${W} ${H*.46} L${W} ${g} Z" fill="var(--mesa)"/>`;
-  s += `<rect x="0" y="${g}" width="${W}" height="${H-g}" fill="var(--sand)"/>`;
-  s += `<path d="M0 ${g}h${W}" stroke="#16203a" stroke-width="3"/>`;
-  return s;
-};
-
-const draw = () => {
-  const sc = document.getElementById('scene'), W = sc.clientWidth, H = sc.clientHeight;
-  if (W && H) {
-    const base = H*.93, cw = Math.min(W*.5, H*1.25);
-    let s = sky(W, H);
-    s += castle(W*.5, base, cw);
-    if (W > 560) s += bull(W*.84, base - 4, Math.min(W*.16, H*.42));
-    if (W > 560) s += `<g opacity=".9">${castle(W*.14, base - 6, Math.min(W*.18, H*.45))}</g>`;
-    sc.innerHTML = s;
-  }
-  const a = document.getElementById('artCastle');
-  if (a.clientWidth) a.innerHTML = `<rect width="100%" height="100%" fill="var(--sky2)"/><rect y="${a.clientHeight*.8}" width="100%" height="${a.clientHeight*.2}" fill="var(--sand)"/>` + castle(a.clientWidth/2, a.clientHeight*.9, Math.min(a.clientWidth*.6, a.clientHeight*1.15));
-  const b = document.getElementById('artBull');
-  if (b.clientWidth) b.innerHTML = `<rect width="100%" height="100%" fill="var(--sky2)"/><rect y="${b.clientHeight*.8}" width="100%" height="${b.clientHeight*.2}" fill="var(--sand)"/>` + bull(b.clientWidth/2 - 10, b.clientHeight*.86, Math.min(b.clientWidth*.42, b.clientHeight*.95));
-};
-const ro = new ResizeObserver(draw);
-for (const id of ['scene','artCastle','artBull']) ro.observe(document.getElementById(id));
-draw();
+document.getElementById('grid').innerHTML = RENTALS.map(r => `
+  <article class="card">
+    <div class="ph"><img src="images/${r.img}" alt="${r.alt}" loading="lazy"></div>
+    <div class="body">
+      <span class="tag">${r.tag}</span>
+      <h3>${r.name}</h3>
+      <p>${r.text}</p>
+      <a class="btn book" href="#">Request this</a>
+    </div>
+  </article>`).join('');
+for (const a of document.querySelectorAll('a.book')) { a.href = FORM; a.target = "_blank"; a.rel = "noopener"; }
 }
 </script>
 </body>
