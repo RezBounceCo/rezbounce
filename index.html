@@ -415,19 +415,19 @@ const API_URL = "https://script.google.com/macros/s/AKfycbyMQxBuQKVoqtPGR3HuEq2-
 const BACKUP_FORM = "https://docs.google.com/forms/d/e/1FAIpQLSeKIq2zjS9GlfX8J7WIW54w37LfnM9_XHvW8Zv_4jv2V0mZkg/viewform";
 const DEFAULTS = {
   rentals: [
-    {name:"Pink Castle Jumper", type:"Bounce house", minHours:4, price:150, extraHour:25, units:1},
-    {name:"Rocket Jumper", type:"Bounce house", minHours:4, price:150, extraHour:25, units:1},
-    {name:"Horse Jumper", type:"Bounce house", minHours:4, price:150, extraHour:25, units:1},
-    {name:"Mechanical Bull", type:"Mechanical bull", minHours:3, price:325, extraHour:75, units:1}
+    {name:"Pink Castle Jumper", type:"Bounce house", minHours:4, price:100, extraHour:25, units:1, allDay:160},
+    {name:"Rocket Jumper", type:"Bounce house", minHours:4, price:100, extraHour:25, units:1, allDay:160},
+    {name:"Horse Jumper", type:"Bounce house", minHours:4, price:120, extraHour:30, units:1, allDay:200},
+    {name:"Mechanical Bull", type:"Mechanical bull", minHours:3, price:325, extraHour:100, units:1, allDay:500}
   ],
-  fees: {operator:30, setupBounce:25, setupBull:50, setupPackage:50, generator:50, base:"Jemez Pueblo"},
+  fees: {operator:30, setupBounce:25, setupBull:50, setupPackage:50, generator:50, base:"Jemez Pueblo", allDayHours:8},
   travel: [[0,5,"Jemez area (0-5 miles)",0],[5.01,15,"5-15 miles",40],[15.01,30,"16-30 miles",60],[30.01,45,"31-45 miles",80],[45.01,60,"46-60 miles",100],[60.01,75,"61-75 miles",120],[75.01,90,"76-90 miles",135],[90.01,105,"91-105 miles",150],[105.01,120,"106-120 miles",175],[120.01,135,"121-135 miles",200],[135.01,150,"136-150 miles",250],[150.01,null,"150+ miles",300]].map(([from,to,label,fee])=>({from,to,label,fee})),
   booked: []
 };
 const INFO = {
-  "Pink Castle Jumper": {img:"pink-castle.jpg", text:"Turrets, flowers and a big bounce floor. A birthday favorite.", alt:"Pink and purple castle bounce house with turrets"},
-  "Rocket Jumper": {img:"rocket.jpg", text:"Red rockets and a blue-and-silver bounce house ready for liftoff.", alt:"Rocket-themed bounce house in red, blue and silver"},
-  "Horse Jumper": {img:"horse.jpg", text:"A western-style bounce house with a horse head on top.", alt:"Horse-themed bounce house with a horse head on the roof"},
+  "Pink Castle Jumper": {img:"pink-castle.jpg", size:"13 × 13 ft", text:"Turrets, flowers and a big bounce floor. A birthday favorite.", alt:"Pink and purple castle bounce house with turrets"},
+  "Rocket Jumper": {img:"rocket.jpg", size:"13 × 13 ft", text:"Red rockets and a blue-and-silver bounce house ready for liftoff.", alt:"Rocket-themed bounce house in red, blue and silver"},
+  "Horse Jumper": {img:"horse.jpg", size:"15 × 15 ft", text:"A western-style bounce house with a horse head on top.", alt:"Horse-themed bounce house with a horse head on the roof"},
   "Mechanical Bull": {img:"bull.jpg", text:"Ride it on a padded inflatable ring. Operator included at an hourly rate; waivers required.", alt:"Mechanical bull inside a green inflatable ring with log-style posts"}
 };
 
@@ -442,6 +442,13 @@ const todayStr = ymd(new Date());
 const prettyDate = s => { const [y,m,d] = s.split("-").map(Number); return new Date(y, m-1, d).toLocaleDateString("en-US", {weekday:"short", month:"short", day:"numeric", year:"numeric"}); };
 const t12 = s => { if (!s) return ""; let [h,m] = s.split(":").map(Number); const ap = h >= 12 ? "PM" : "AM"; h = h % 12 || 12; return h + ":" + pad(m) + " " + ap; };
 
+const allDayHrs = () => D.fees.allDayHours || 8;
+function rentalCost(r, hrs) {
+  const byHour = r.price + Math.max(0, hrs - r.minHours) * r.extraHour;
+  if (r.allDay == null) return {cost: byHour, allDay: false};
+  const byDay = r.allDay + Math.max(0, hrs - allDayHrs()) * r.extraHour;
+  return byDay < byHour ? {cost: byDay, allDay: true} : {cost: byHour, allDay: false};
+}
 function usedOn(date, name) { return D.booked.filter(b => b.date === date && b.item === name).length; }
 function isTaken(date, name) { const r = D.rentals.find(x => x.name === name); return !!date && !!r && usedOn(date, name) >= (r.units || 1); }
 
@@ -452,10 +459,10 @@ function renderCards() {
     return `<article class="card">
       <div class="ph">${i.img ? `<img src="images/${i.img}" alt="${esc(i.alt)}" loading="lazy">` : ""}</div>
       <div class="body">
-        <span class="tag">${r.minHours}-hour minimum</span>
+        <span class="tag">${r.minHours}-hour minimum${i.size ? " · " + i.size : ""}</span>
         <h3>${esc(r.name)}</h3>
         <p>${esc(i.text)}</p>
-        <p class="price">${money(r.price)} for ${r.minHours} hours, ${money(r.extraHour)} each extra hour</p>
+        <p class="price">${money(r.price)} for ${r.minHours} hours${r.allDay != null ? `<br>${money(r.allDay)} all day (${allDayHrs()} hrs)` : ""}<br><span class="hint">${money(r.extraHour)} each extra hour</span></p>
         <div class="acts">
           <button class="btn line" type="button" data-cal="${esc(r.name)}">Check availability</button>
           <button class="btn" type="button" data-pick="${esc(r.name)}">Request this</button>
@@ -475,7 +482,7 @@ function renderItems() {
     return `<label class="item${taken ? " taken" : ""}">
       <input type="checkbox" value="${esc(r.name)}" ${keep.has(r.name) && !taken ? "checked" : ""} ${taken ? "disabled" : ""}>
       ${i.img ? `<img src="images/${i.img}" alt="">` : "<span></span>"}
-      <div><b>${esc(r.name)}</b><span>${taken ? "Already booked on this date" : money(r.price) + " / " + r.minHours + " hrs"}</span></div>
+      <div><b>${esc(r.name)}</b><span>${taken ? "Already booked on this date" : money(r.price) + " / " + r.minHours + " hrs" + (r.allDay != null ? " · " + money(r.allDay) + " all day" : "")}</span></div>
     </label>`;
   }).join("");
   const lost = [...keep].filter(n => isTaken(date, n));
@@ -491,7 +498,7 @@ function renderZones() {
 }
 
 function renderFeeTables() {
-  $("ptable").innerHTML = D.rentals.map(r => `<tr><td>${esc(r.name)} (${r.minHours} hrs)<br><span class="hint">+${money(r.extraHour)} each extra hour</span></td><td>${money(r.price)}</td></tr>`).join("");
+  $("ptable").innerHTML = D.rentals.map(r => `<tr><td>${esc(r.name)} (${r.minHours} hrs)<br><span class="hint">${r.allDay != null ? money(r.allDay) + " all day (" + allDayHrs() + " hrs) · " : ""}+${money(r.extraHour)} each extra hour</span></td><td>${money(r.price)}</td></tr>`).join("");
   document.querySelectorAll("[data-fee]").forEach(el => el.textContent = money(D.fees[el.dataset.fee] || 0));
   $("ztable").innerHTML = D.travel.map(z => `<tr><td>${esc(z.label)}</td><td>${z.fee ? money(z.fee) : "Free"}</td></tr>`).join("");
 }
@@ -518,9 +525,11 @@ function estimate() {
   const add = (label, amt, muted) => { lines.push({label, amt, muted}); total += amt || 0; };
 
   chosen.forEach(r => {
-    const extra = Math.max(0, hrs - r.minHours);
-    const cost = r.price + extra * r.extraHour;
-    add(r.name + (extra > 0 ? ` (${r.minHours} hrs + ${extra} extra)` : ` (${r.minHours} hrs)`), cost);
+    const {cost, allDay} = rentalCost(r, hrs);
+    let label;
+    if (allDay) { const past = Math.max(0, hrs - allDayHrs()); label = `all day${past > 0 ? " + " + past + " extra" : ""}`; }
+    else { const extra = Math.max(0, hrs - r.minHours); label = `${r.minHours} hrs${extra > 0 ? " + " + extra + " extra" : ""}`; }
+    add(`${r.name} (${label})`, cost);
   });
   const bounce = chosen.filter(r => !isBull(r)).length > 0, bull = chosen.some(isBull);
   if (bounce || bull) add("Setup & takedown", bounce && bull ? D.fees.setupPackage : bull ? D.fees.setupBull : D.fees.setupBounce);

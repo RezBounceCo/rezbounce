@@ -1,5 +1,5 @@
 /**
- * Rez Bounce Co: website <-> Google Sheet connection   (v1)
+ * Rez Bounce Co: website <-> Google Sheet connection   (v2: all-day prices)
  *
  * Works with the "Rez Bounce Co Bookings" Sheet (tabs: Requests, Rentals, Fees, Travel, Availability).
  *
@@ -10,6 +10,11 @@
  *        Execute as: Me      Who has access: Anyone
  *      Click Deploy, approve the permissions (Advanced → Go to project), copy the Web app URL.
  *   4. Put that URL in the website's index.html (API_URL near the top of the script).
+ *
+ * v2 ONE-TIME STEP (adds all-day prices from the owner's 2026 Pricing sheet)
+ *   After pasting this file and saving, pick "upgradeToV2" in the function menu at the top
+ *   and click Run once. It fills in his real prices, adds the All-day column, and updates the
+ *   estimate formulas on the Requests tab. Then deploy a new version (below).
  *
  * UPDATING LATER
  *   Paste the new file → Save → Deploy → Manage deployments → pencil (Edit) →
@@ -42,17 +47,19 @@ function ss_() { return SpreadsheetApp.getActiveSpreadsheet(); }
 
 function readRentals_() {
   const sh = ss_().getSheetByName("Rentals");
-  const rows = sh.getRange(4, 1, 4, 6).getValues();
+  const rows = sh.getRange(4, 1, 4, 7).getValues();
   return rows.filter(r => r[0]).map(r => ({
     name: String(r[0]), type: String(r[1]), minHours: Number(r[2]) || 0,
-    price: Number(r[3]) || 0, extraHour: Number(r[4]) || 0, units: Number(r[5]) || 1
+    price: Number(r[3]) || 0, extraHour: Number(r[4]) || 0, units: Number(r[5]) || 1,
+    allDay: r[6] === "" || isNaN(Number(r[6])) ? null : Number(r[6])
   }));
 }
 
 function readFees_() {
-  const v = ss_().getSheetByName("Fees").getRange(3, 2, 6, 1).getValues().map(r => r[0]);
+  const v = ss_().getSheetByName("Fees").getRange(3, 2, 7, 1).getValues().map(r => r[0]);
   return { operator: Number(v[0]) || 0, setupBounce: Number(v[1]) || 0, setupBull: Number(v[2]) || 0,
-           setupPackage: Number(v[3]) || 0, generator: Number(v[4]) || 0, base: String(v[5] || BASE_LOCATION) };
+           setupPackage: Number(v[3]) || 0, generator: Number(v[4]) || 0, base: String(v[5] || BASE_LOCATION),
+           allDayHours: Number(v[6]) || 8 };
 }
 
 function readTravel_() {
@@ -194,4 +201,45 @@ function notify_(p, items, row) {
         "This is not a confirmed booking yet. We'll check availability and send your final quote soon.\n\nRez Bounce Co");
     }
   } catch (err) { /* email problems never block a request */ }
+}
+
+/**
+ * ONE-TIME: run from the Apps Script editor (function menu → upgradeToV2 → Run).
+ * Puts in the owner's 2026 prices, adds an All-day price column, and updates the
+ * rental-cost formulas on Requests so long rentals are capped at the all-day price.
+ */
+function upgradeToV2() {
+  const ss = ss_();
+  // Rentals: Item, Type, Minimum hours, Price for minimum hours, Each extra hour, How many he owns, All-day price, Source
+  const r = ss.getSheetByName("Rentals");
+  r.getRange(3, 7, 1, 2).setValues([["All-day price", "Where the number came from"]]);
+  r.getRange(3, 1, 1, 8).setFontWeight("bold").setFontColor("#ffffff").setBackground("#141414").setWrap(true);
+  const src = "Owner's 2026 Pricing sheet (Nov 2026)";
+  r.getRange(4, 3, 4, 3).setValues([[4, 100, 25], [4, 100, 25], [4, 120, 30], [3, 325, 100]]);
+  r.getRange(4, 7, 4, 2).setValues([[160, src], [160, src], [200, src], [500, src]]);
+  r.getRange(4, 4, 4, 2).setNumberFormat('"$"#,##0.00');
+  r.getRange(4, 7, 4, 1).setNumberFormat('"$"#,##0.00').setBackground("#FFF4C2");
+  r.setColumnWidth(7, 110); r.setColumnWidth(8, 260);
+  r.getRange("A2").setValue("Yellow cells are inputs. Change a price here and the website and every estimate update. All-day price covers up to the all-day hours on the Fees tab; each hour past that adds the extra-hour rate.");
+
+  // Fees: hours in an all-day rental
+  const f = ss.getSheetByName("Fees");
+  f.getRange(9, 1, 1, 3).setValues([["Hours in an all-day rental", 8, "Owner's 2026 Pricing sheet"]]);
+  f.getRange(9, 2).setBackground("#FFF4C2");
+  f.getRange(9, 3).setFontColor("#777777");
+
+  // Requests: rental cost = cheaper of (minimum price + extra hours) and (all-day price + hours past all-day)
+  const q = ss.getSheetByName("Requests");
+  const last = Math.max(q.getLastRow(), 44);
+  const cols = ["N", "O", "P", "Q"];
+  const out = [];
+  for (let row = FIRST_ROW; row <= last; row++) {
+    out.push(cols.map((c, k) => {
+      const rr = 4 + k;
+      const byHour = `Rentals!$D$${rr}+MAX(0,S${row}-Rentals!$C$${rr})*Rentals!$E$${rr}`;
+      const byDay = `Rentals!$G$${rr}+MAX(0,S${row}-Fees!$B$9)*Rentals!$E$${rr}`;
+      return `=IF(${c}${row}<>"Yes",0,IF(Rentals!$G$${rr}="",${byHour},MIN(${byHour},${byDay})))`;
+    }));
+  }
+  q.getRange(FIRST_ROW, 20, out.length, 4).setFormulas(out);
 }
