@@ -11,11 +11,11 @@
 <style>
 /* VOICE occasion: a local party-rental business, loud and friendly like its logo
    IDEA the Rez Bounce Co banner: black ground, brushed red and white lettering, yellow strip
-   PICTURE the real logo up top, then his own photos of each rental
+   PICTURE the real logo up top, his own photos of each rental, then a booking form with a live quote
    COLOUR black dominant in bands, red #e8321c support, yellow #f7c919 accent; white content ground
    TYPE Anton (matches the banner strip lettering) + Barlow
-   LAYOUT logo band, yellow strip, rentals grid of 4 photos; phone stacks to 2 then 1 */
-:root{color-scheme:light dark;--bg:light-dark(#ffffff,#121212);--ink:light-dark(#141414,#f3f3f3);--soft:light-dark(#555,#b8b8b8);--card:light-dark(#f6f6f4,#1d1d1d);--line:light-dark(#e2e2de,#333);--red:#e8321c;--yel:#f7c919;--blk:#0d0d0d}
+   LAYOUT logo band, yellow strip, rentals grid, booking form with sticky estimate beside it; phone stacks */
+:root{color-scheme:light dark;--bg:light-dark(#ffffff,#121212);--ink:light-dark(#141414,#f3f3f3);--soft:light-dark(#555,#b8b8b8);--card:light-dark(#f6f6f4,#1d1d1d);--line:light-dark(#dcdcd6,#383838);--field:light-dark(#ffffff,#0f0f0f);--red:#e8321c;--yel:#f7c919;--blk:#0d0d0d;--ok:light-dark(#1d7a3a,#5fd38a);--okbg:light-dark(#e3f6e8,#12301c);--badbg:light-dark(#fde6e2,#3a1612)}
 :root[data-theme=light]{color-scheme:light}
 :root[data-theme=dark]{color-scheme:dark}
 *{box-sizing:border-box;min-width:0}
@@ -30,11 +30,14 @@ p{margin:0 0 12px;max-width:64ch}
 a{color:inherit}
 .wrap{max-width:1240px;margin:0 auto}
 .band{padding-block:clamp(36px,5vw,72px);padding-inline:max(5vw,16px)}
-.btn{display:inline-flex;align-items:center;justify-content:center;min-height:48px;padding:10px 24px;border-radius:8px;font:700 17px Barlow,sans-serif;text-decoration:none;background:var(--red);color:#fff;border:2px solid var(--red);white-space:nowrap;transition:transform .12s,background .12s}
+.btn{display:inline-flex;align-items:center;justify-content:center;min-height:48px;padding:10px 24px;border-radius:8px;font:700 17px Barlow,sans-serif;text-decoration:none;background:var(--red);color:#fff;border:2px solid var(--red);white-space:nowrap;cursor:pointer;transition:transform .12s,background .12s}
 .btn:hover{transform:translateY(-2px);background:#c92812}
-.btn:focus-visible{outline:3px solid var(--yel);outline-offset:3px}
+.btn:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible{outline:3px solid var(--yel);outline-offset:2px}
 .btn.ghost{background:transparent;color:#fff;border-color:#fff}
 .btn.ghost:hover{background:#fff;color:var(--blk)}
+.btn.line{background:transparent;color:var(--ink);border-color:var(--ink)}
+.btn.line:hover{background:var(--ink);color:var(--bg)}
+.btn[disabled]{opacity:.55;cursor:wait;transform:none}
 nav{position:sticky;top:0;z-index:5;background:var(--blk);color:#fff;border-bottom:4px solid var(--yel)}
 nav .wrap{display:flex;flex-wrap:wrap;align-items:center;gap:8px 22px;padding:10px max(5vw,16px)}
 .logo{font:400 24px Anton,Impact,sans-serif;text-decoration:none;margin-right:auto;letter-spacing:.02em}
@@ -61,27 +64,77 @@ nav .btn{min-height:44px;padding:6px 18px;font-size:16px}
 .card:hover .ph img{transform:scale(1.04)}
 .card .body{padding:16px 18px 20px;display:flex;flex-direction:column;flex:1}
 .card p{font-size:16px;color:var(--soft)}
+.card .price{font-weight:700;color:var(--ink);margin:0 0 12px}
 .tag{display:inline-block;align-self:flex-start;background:var(--blk);color:var(--yel);font-weight:700;font-size:14px;border-radius:4px;padding:2px 10px;margin-bottom:10px;white-space:nowrap}
-.card .btn{margin-top:auto;min-height:44px;font-size:16px}
+.card .acts{margin-top:auto;display:grid;gap:8px}
+.card .btn{min-height:44px;font-size:16px;padding:6px 12px}
 .events{background:var(--red);color:#fff}
 .evgrid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px;margin-top:18px}
 .ev{background:rgba(0,0,0,.18);border:2px solid rgba(255,255,255,.35);border-radius:10px;padding:16px 18px}
 .ev b{display:block;font:400 22px Anton,Impact,sans-serif;letter-spacing:.02em;margin-bottom:2px}
 .ev span{font-size:15px;color:#ffe9e4}
-.steps{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:24px;margin-top:22px;counter-reset:s}
-.step{position:relative;padding-top:62px}
-.step::before{counter-increment:s;content:counter(s);position:absolute;top:0;left:0;width:50px;height:50px;border-radius:50%;background:var(--yel);color:var(--blk);display:grid;place-items:center;font:400 26px Anton,Impact,sans-serif}
-.two{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:32px 48px;align-items:start}
+/* booking */
+.book{background:var(--card);border-block:1px solid var(--line)}
+.bookgrid{display:grid;grid-template-columns:minmax(0,1.6fr) minmax(0,1fr);gap:28px;align-items:start;margin-top:20px}
+form{display:grid;gap:22px}
+fieldset{border:1px solid var(--line);border-radius:12px;padding:18px 20px 20px;margin:0;background:var(--bg);display:grid;gap:14px}
+legend{font:400 22px Anton,Impact,sans-serif;letter-spacing:.02em;padding:0 8px}
+.two{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:14px}
+.three{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}
+label{display:grid;gap:5px;font-weight:600;font-size:16px}
+label small,.hint{font-weight:400;color:var(--soft);font-size:14px}
+input,select,textarea{font:16px Barlow,sans-serif;color:var(--ink);background:var(--field);border:1.5px solid var(--line);border-radius:8px;padding:10px 12px;min-height:46px;width:100%}
+textarea{min-height:76px;resize:vertical}
+.req{color:var(--red)}
+.choices{display:flex;flex-wrap:wrap;gap:8px}
+.chip{display:inline-flex;align-items:center;gap:8px;border:1.5px solid var(--line);border-radius:999px;padding:8px 14px;min-height:44px;cursor:pointer;font-weight:600;background:var(--field)}
+.chip input{width:18px;height:18px;min-height:0;margin:0;accent-color:var(--red)}
+.chip:has(input:checked){border-color:var(--red);background:color-mix(in srgb,var(--red) 10%,var(--field))}
+.items{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+.item{display:grid;grid-template-columns:auto 56px minmax(0,1fr);gap:10px;align-items:center;border:1.5px solid var(--line);border-radius:10px;padding:8px 12px 8px 10px;cursor:pointer;background:var(--field)}
+.item input{width:20px;height:20px;min-height:0;margin:0;accent-color:var(--red)}
+.item img{width:56px;height:56px;object-fit:cover;border-radius:6px}
+.item b{display:block;line-height:1.2}
+.item span{font-size:14px;color:var(--soft)}
+.item:has(input:checked){border-color:var(--red);background:color-mix(in srgb,var(--red) 8%,var(--field))}
+.item.taken{opacity:.6;cursor:not-allowed}
+.item.taken span{color:var(--red);font-weight:700}
+.distrow{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:10px;align-items:end}
+.msg{border-radius:8px;padding:10px 14px;font-size:15px;margin:0}
+.msg.ok{background:var(--okbg);color:var(--ok)}
+.msg.bad{background:var(--badbg);color:var(--red)}
+.msg:empty{display:none}
+.terms{font-size:15px;color:var(--soft)}
+.terms ol{margin:6px 0 0;padding-left:20px}
+.terms li{margin-bottom:4px}
+.agree{display:flex;gap:10px;align-items:flex-start;font-weight:600}
+.agree input{width:22px;height:22px;min-height:0;margin-top:2px;flex:none;accent-color:var(--red)}
+.quote{position:sticky;top:86px;background:var(--blk);color:#fff;border-radius:12px;padding:22px 22px 20px;border-top:6px solid var(--yel)}
+.quote h3{color:#fff;font-size:28px}
+.quote .sub{color:#bbb;font-size:15px;margin:0 0 12px}
+.qlines{list-style:none;margin:0;padding:0}
+.qlines li{display:flex;justify-content:space-between;gap:14px;padding:8px 0;border-bottom:1px solid #333;font-size:16px}
+.qlines li span:last-child{white-space:nowrap;font-variant-numeric:tabular-nums}
+.qlines .muted{color:#999}
+.qtotal{display:flex;justify-content:space-between;align-items:baseline;gap:10px;margin-top:14px}
+.qtotal b{font:400 clamp(36px,4vw,46px) Anton,Impact,sans-serif;color:var(--yel);white-space:nowrap}
+.quote .fine{color:#aaa;font-size:14px;margin:10px 0 0}
+.done{background:var(--bg);border:2px solid var(--ok);border-radius:12px;padding:24px}
+.done h3{color:var(--ok)}
+/* fees + terms */
+.twocol{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:32px 48px;align-items:start}
 .panel{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:22px 24px}
 .panel h3{margin-bottom:12px}
 table{width:100%;border-collapse:collapse;font-size:16px}
 td{padding:9px 0;border-bottom:1px solid var(--line);vertical-align:top}
 td:last-child{text-align:right;font-weight:700;padding-left:16px;white-space:nowrap}
 tr:last-child td{border-bottom:0}
+.zones td:last-child{font-variant-numeric:tabular-nums}
 .note{font-size:15px;color:var(--soft);margin:14px 0 0}
-ol.terms{margin:0;padding-left:22px}
-ol.terms li{margin-bottom:10px}
-ol.terms b{display:block}
+ol.tlist{margin:0;padding-left:22px}
+ol.tlist li{margin-bottom:10px}
+ol.tlist b{display:block}
+details summary{cursor:pointer;font-weight:700;margin-top:16px}
 .closer{background:var(--blk);color:#fff;border-top:4px solid var(--yel)}
 .closer .wrap{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:20px}
 .closer h2{margin:0}
@@ -90,9 +143,30 @@ ol.terms b{display:block}
 footer{background:#000;color:#cfcfcf;font-size:15px}
 footer .wrap{display:flex;flex-wrap:wrap;justify-content:space-between;gap:10px 24px}
 footer b{color:#fff}
-@media(max-width:1000px){.grid{grid-template-columns:repeat(2,minmax(0,1fr))}.evgrid{grid-template-columns:repeat(2,minmax(0,1fr))}}
-@media(max-width:760px){.two{grid-template-columns:minmax(0,1fr)}.steps{grid-template-columns:minmax(0,1fr);gap:16px}.step{padding:0 0 0 68px;min-height:52px}}
-@media(max-width:600px){nav .links{display:none}.grid{gap:12px}.card .body{padding:12px 12px 14px}.card h3{font-size:21px}.card p{font-size:15px}.card .btn{padding:6px 10px;white-space:normal;text-align:center}.evgrid{gap:10px}}
+/* calendar dialog */
+dialog{border:0;border-radius:14px;padding:0;width:min(420px,calc(100vw - 24px));background:var(--bg);color:var(--ink);box-shadow:0 20px 60px rgba(0,0,0,.4)}
+dialog::backdrop{background:rgba(0,0,0,.6)}
+.dhead{background:var(--blk);color:#fff;padding:16px 20px;display:flex;justify-content:space-between;align-items:center;gap:10px;border-bottom:4px solid var(--yel)}
+.dhead h3{margin:0;font-size:24px;color:#fff}
+.x{background:none;border:0;color:#fff;font-size:28px;line-height:1;width:44px;height:44px;cursor:pointer}
+.dbody{padding:16px 20px 20px}
+.mnav{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px}
+.mnav b{font-size:18px}
+.mnav button{width:44px;height:44px;border-radius:8px;border:1.5px solid var(--line);background:var(--field);color:var(--ink);font-size:20px;cursor:pointer}
+.cal{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:4px;text-align:center}
+.cal .dow{font-size:13px;color:var(--soft);font-weight:700;padding:4px 0}
+.cal button{aspect-ratio:1;border-radius:8px;border:1.5px solid var(--line);background:var(--field);color:var(--ink);font:600 15px Barlow,sans-serif;cursor:pointer;padding:0}
+.cal button.free:hover{border-color:var(--ok);background:var(--okbg)}
+.cal button.booked{background:var(--red);border-color:var(--red);color:#fff;cursor:not-allowed;text-decoration:line-through}
+.cal button.past{opacity:.35;cursor:default}
+.cal button.today{outline:2px solid var(--yel)}
+.legend{display:flex;flex-wrap:wrap;gap:6px 16px;font-size:14px;color:var(--soft);margin-top:12px}
+.legend i{display:inline-block;width:14px;height:14px;border-radius:4px;vertical-align:-2px;margin-right:6px;border:1.5px solid var(--line)}
+.legend .b{background:var(--red);border-color:var(--red)}
+.dstatus{font-size:14px;color:var(--soft);margin:10px 0 0}
+@media(max-width:1000px){.grid{grid-template-columns:repeat(2,minmax(0,1fr))}.evgrid{grid-template-columns:repeat(2,minmax(0,1fr))}.bookgrid{grid-template-columns:minmax(0,1fr)}.quote{position:static}}
+@media(max-width:760px){.twocol{grid-template-columns:minmax(0,1fr)}.three{grid-template-columns:minmax(0,1fr) minmax(0,1fr)}.three label:first-child{grid-column:1/-1}}
+@media(max-width:600px){nav .links{display:none}.grid{gap:12px}.card .body{padding:12px 12px 14px}.card h3{font-size:21px}.card p{font-size:15px}.card .btn{white-space:normal;text-align:center}.evgrid{gap:10px}.two,.items{grid-template-columns:minmax(0,1fr)}fieldset{padding:14px}.distrow{grid-template-columns:minmax(0,1fr)}}
 @media(max-width:380px){.grid{grid-template-columns:minmax(0,1fr)}}
 @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}.btn,.card .ph img{transition:none}}
 </style>
@@ -103,10 +177,10 @@ footer b{color:#fff}
     <a class="logo" href="#top">Rez <b>Bounce</b> Co</a>
     <div class="links">
       <a href="#rentals">Rentals</a>
-      <a href="#how">How it works</a>
+      <a href="#book">Get a quote</a>
       <a href="#fees">Fees &amp; terms</a>
     </div>
-    <a class="btn book" href="#">Book now</a>
+    <a class="btn" href="#book">Book now</a>
   </div>
 </nav>
 
@@ -119,7 +193,7 @@ footer b{color:#fff}
         <p>Birthdays, school days, work events and community gatherings. Delivering from Jemez Pueblo.</p>
       </div>
       <div class="cta">
-        <a class="btn book" href="#">Request a booking</a>
+        <a class="btn" href="#book">Get a quote</a>
         <a class="btn ghost" href="#rentals">See rentals</a>
       </div>
     </div>
@@ -130,14 +204,14 @@ footer b{color:#fff}
   <div class="wrap">
     <span>Bounce houses: 4-hour minimum</span><i>|</i>
     <span>Mechanical bull: 3-hour minimum</span><i>|</i>
-    <span>Setup &amp; takedown included in your quote</span>
+    <span>See your price before you book</span>
   </div>
 </div>
 
 <section class="band" id="rentals">
   <div class="wrap">
     <h2>Our rentals</h2>
-    <p>Pick one or mix and match. Extra hours can be added to any rental.</p>
+    <p>Pick one or mix and match. Check a date, then request it below.</p>
     <div class="grid" id="grid"></div>
   </div>
 </section>
@@ -154,43 +228,146 @@ footer b{color:#fff}
   </div>
 </section>
 
-<section class="band" id="how">
+<section class="band book" id="book">
   <div class="wrap">
-    <h2>How booking works</h2>
-    <div class="steps">
-      <div class="step"><h3>Send a request</h3><p>Fill out the booking form with your date, times, location and the rentals you want. Include your Facebook name or Instagram username so we can find your messages.</p></div>
-      <div class="step"><h3>Get your quote</h3><p>We check availability and message you a final quote with rental, setup, travel and any generator or operator fees.</p></div>
-      <div class="step"><h3>Lock it in</h3><p>Once your request is approved, a deposit may be needed to hold your date. Full payment is due before setup.</p></div>
+    <h2>Get a quote and request your date</h2>
+    <p>Fill this out and you'll see your estimated price as you go. Sending it is a request, not a booking: we'll check availability and message you a final quote.</p>
+    <p class="msg bad" id="offline" hidden></p>
+    <div class="bookgrid">
+      <div id="formbox">
+        <form id="f" novalidate>
+          <fieldset>
+            <legend>Your event</legend>
+            <div class="three">
+              <label>Event date <span class="req">*</span><input type="date" id="date" required></label>
+              <label>Start time <span class="req">*</span><input type="time" id="start" value="12:00" step="900" required></label>
+              <label>End time <span class="req">*</span><input type="time" id="end" value="16:00" step="900" required></label>
+            </div>
+            <p class="hint" id="hoursnote"></p>
+            <label>Event type <span class="req">*</span>
+              <select id="eventType" required>
+                <option value="">Choose one</option>
+                <option>Birthday Party / Personal Celebration</option>
+                <option>School / Educational Event</option>
+                <option>Business / Corporate Event</option>
+                <option>Community / Organization Event</option>
+              </select>
+            </label>
+          </fieldset>
+
+          <fieldset>
+            <legend>Rentals</legend>
+            <div class="items" id="items"></div>
+            <p class="msg bad" id="itemmsg"></p>
+            <div>
+              <span style="font-weight:600">Do you need a generator? <span class="req">*</span></span>
+              <p class="hint" style="margin:2px 0 8px">Every rental needs a working outlet. If there's no power where you're setting up, we can bring a generator for an extra fee.</p>
+              <div class="choices">
+                <label class="chip"><input type="radio" name="gen" value="No" checked> No, I have a working outlet</label>
+                <label class="chip"><input type="radio" name="gen" value="Yes"> Yes, bring a generator</label>
+              </div>
+            </div>
+          </fieldset>
+
+          <fieldset>
+            <legend>Where</legend>
+            <label>Event address or location <span class="req">*</span>
+              <small>No street address? Give the community, nearest landmark, or directions.</small>
+              <textarea id="address" required></textarea>
+            </label>
+            <div class="distrow">
+              <label>How far from Jemez Pueblo? <span class="req">*</span>
+                <select id="zone" required></select>
+              </label>
+              <button type="button" class="btn line" id="findmiles">Figure it out from my address</button>
+            </div>
+            <p class="msg" id="milesmsg"></p>
+          </fieldset>
+
+          <fieldset>
+            <legend>Your info</legend>
+            <div class="two">
+              <label>Full name <span class="req">*</span><input id="name" autocomplete="name" required></label>
+              <label>Phone number <span class="req">*</span><input id="phone" type="tel" autocomplete="tel" required></label>
+            </div>
+            <label>Email address <span class="req">*</span><input id="email" type="email" autocomplete="email" required></label>
+            <div>
+              <span style="font-weight:600">Where did you contact Rez Bounce Co? <span class="req">*</span></span>
+              <div class="choices" style="margin-top:8px">
+                <label class="chip"><input type="radio" name="via" value="Facebook Messenger" checked> Facebook Messenger</label>
+                <label class="chip"><input type="radio" name="via" value="Instagram Messenger"> Instagram Messenger</label>
+                <label class="chip"><input type="radio" name="via" value="Other"> Other</label>
+              </div>
+            </div>
+            <label>Facebook name or Instagram username
+              <small>So we can find your conversation and send your quote.</small>
+              <input id="social">
+            </label>
+            <label>Anything else we should know?<textarea id="notes"></textarea></label>
+          </fieldset>
+
+          <fieldset>
+            <legend>Rental terms</legend>
+            <div class="terms">
+              <ol>
+                <li><b>Booking approval:</b> sending this form does not guarantee a reservation. All bookings depend on availability and approval.</li>
+                <li><b>Pricing &amp; fees:</b> final quotes include rental, setup, delivery, generator and other service fees.</li>
+                <li><b>Payment:</b> a deposit may be required to hold your date. Full payment is due before setup.</li>
+                <li><b>Weather:</b> rentals may be canceled or rescheduled for rain, high winds or other unsafe weather.</li>
+                <li><b>Equipment &amp; safety:</b> follow all safety rules and rental instructions. The mechanical bull needs extra safety steps and rider waivers.</li>
+                <li><b>Cancellations:</b> cancellation and deposit policies are shared before your booking is confirmed.</li>
+              </ol>
+            </div>
+            <label class="agree"><input type="checkbox" id="terms" required> I have read and understand the rental terms above and agree to follow Rez Bounce Co's rental policies.</label>
+          </fieldset>
+
+          <p class="msg bad" id="formmsg"></p>
+          <div><button class="btn" type="submit" id="send">Send my request</button></div>
+        </form>
+      </div>
+
+      <aside class="quote" aria-live="polite">
+        <h3>Your estimate</h3>
+        <p class="sub" id="qsub">Pick a rental to see your price.</p>
+        <ul class="qlines" id="qlines"></ul>
+        <div class="qtotal"><span>Estimated total</span><b id="qtotal">$0</b></div>
+        <p class="fine">Estimate only. Your final quote comes after we review your request. A deposit may be required; full payment is due before setup.</p>
+      </aside>
     </div>
-    <p style="margin-top:22px"><a class="btn book" href="#">Start your request</a></p>
   </div>
 </section>
 
-<section class="band" id="fees" style="background:var(--card)">
-  <div class="wrap two">
+<section class="band" id="fees">
+  <div class="wrap twocol">
     <div>
       <h2>Fees</h2>
       <div class="panel">
-        <h3>Setup &amp; takedown</h3>
+        <h3>Rentals</h3>
+        <table id="ptable"></table>
+        <h3 style="margin-top:22px">Setup &amp; takedown</h3>
         <table>
-          <tr><td>Bounce house rental</td><td>$25 per booking</td></tr>
-          <tr><td>Mechanical bull rental</td><td>$50 per booking</td></tr>
-          <tr><td>Bounce house + mechanical bull package</td><td>$50 total</td></tr>
+          <tr><td>Bounce house booking</td><td data-fee="setupBounce"></td></tr>
+          <tr><td>Mechanical bull booking</td><td data-fee="setupBull"></td></tr>
+          <tr><td>Bounce house + mechanical bull package</td><td data-fee="setupPackage"></td></tr>
         </table>
         <h3 style="margin-top:22px">Other fees</h3>
         <table>
-          <tr><td>Mechanical bull operator</td><td>$30/hour</td></tr>
-          <tr><td>Travel &amp; delivery</td><td>Based on distance from Jemez Pueblo</td></tr>
-          <tr><td>Generator, if you have no outlet</td><td>Added if requested</td></tr>
+          <tr><td>Mechanical bull operator</td><td><span data-fee="operator"></span>/hour</td></tr>
+          <tr><td>Generator, if you have no outlet</td><td data-fee="generator"></td></tr>
+          <tr><td>Travel &amp; delivery (round trip)</td><td>By distance, below</td></tr>
         </table>
+        <details>
+          <summary>Travel fee by distance from Jemez Pueblo</summary>
+          <table class="zones" id="ztable" style="margin-top:8px"></table>
+        </details>
         <p class="note">All rentals need a working electrical outlet. Every fee is listed in your final quote before your booking is confirmed.</p>
       </div>
     </div>
     <div>
       <h2>Rental terms</h2>
       <div class="panel">
-        <ol class="terms">
-          <li><b>Booking approval</b>Sending the form does not guarantee a reservation. All bookings depend on availability and approval.</li>
+        <ol class="tlist">
+          <li><b>Booking approval</b>Sending a request does not guarantee a reservation. All bookings depend on availability and approval.</li>
           <li><b>Pricing &amp; fees</b>Final quotes include rental, setup, delivery, generator and other service fees.</li>
           <li><b>Payment</b>A deposit may be required to hold your reservation. Full payment is due before setup.</li>
           <li><b>Weather</b>Rentals may be canceled or rescheduled for rain, high winds or other unsafe weather.</li>
@@ -206,9 +383,9 @@ footer b{color:#fff}
   <div class="wrap">
     <div>
       <h2>Got a date? <b>Let's bounce.</b></h2>
-      <p>Send your request, or message Rez Bounce Co on Facebook or Instagram.</p>
+      <p>Get your quote in a couple of minutes, or message Rez Bounce Co on Facebook or Instagram.</p>
     </div>
-    <a class="btn book" href="#">Book now</a>
+    <a class="btn" href="#book">Get a quote</a>
   </div>
 </section>
 
@@ -219,26 +396,310 @@ footer b{color:#fff}
   </div>
 </footer>
 
+<dialog id="cal">
+  <div class="dhead"><h3 id="calTitle">Availability</h3><button class="x" type="button" id="calClose" aria-label="Close">×</button></div>
+  <div class="dbody">
+    <div class="mnav"><button type="button" id="prevM" aria-label="Previous month">‹</button><b id="mLabel"></b><button type="button" id="nextM" aria-label="Next month">›</button></div>
+    <div class="cal" id="calGrid"></div>
+    <div class="legend"><span><i></i>Open: tap a day to request it</span><span><i class="b"></i>Booked</span></div>
+    <p class="dstatus" id="calStatus"></p>
+  </div>
+</dialog>
+
 <script>
 {
-const FORM = "https://docs.google.com/forms/d/e/1FAIpQLSeKIq2zjS9GlfX8J7WIW54w37LfnM9_XHvW8Zv_4jv2V0mZkg/viewform";
-const RENTALS = [
-  {name:"Pink Castle Jumper", img:"pink-castle.jpg", tag:"4-hour minimum", text:"Turrets, flowers and a big bounce floor. A birthday favorite.", alt:"Pink and purple castle bounce house with turrets"},
-  {name:"Rocket Jumper", img:"rocket.jpg", tag:"4-hour minimum", text:"Red rockets and a blue-and-silver bounce house ready for liftoff.", alt:"Rocket-themed bounce house in red, blue and silver"},
-  {name:"Horse Jumper", img:"horse.jpg", tag:"4-hour minimum", text:"A western-style bounce house with a horse head on top.", alt:"Horse-themed bounce house with a horse head on the roof"},
-  {name:"Mechanical Bull", img:"bull.jpg", tag:"3-hour minimum", text:"Ride it on a padded inflatable ring. Operator available, waivers required.", alt:"Mechanical bull inside a green inflatable ring with log-style posts"}
-];
-document.getElementById('grid').innerHTML = RENTALS.map(r => `
-  <article class="card">
-    <div class="ph"><img src="images/${r.img}" alt="${r.alt}" loading="lazy"></div>
-    <div class="body">
-      <span class="tag">${r.tag}</span>
-      <h3>${r.name}</h3>
-      <p>${r.text}</p>
-      <a class="btn book" href="#">Request this</a>
-    </div>
-  </article>`).join('');
-for (const a of document.querySelectorAll('a.book')) { a.href = FORM; a.target = "_blank"; a.rel = "noopener"; }
+/* ===== Settings ===== */
+// Paste the Apps Script web app URL here once it's deployed (see apps-script/Code.gs).
+const API_URL = "";
+// Used until the Sheet is connected (and if it can't be reached). The Sheet's numbers win once connected.
+const BACKUP_FORM = "https://docs.google.com/forms/d/e/1FAIpQLSeKIq2zjS9GlfX8J7WIW54w37LfnM9_XHvW8Zv_4jv2V0mZkg/viewform";
+const DEFAULTS = {
+  rentals: [
+    {name:"Pink Castle Jumper", type:"Bounce house", minHours:4, price:150, extraHour:25, units:1},
+    {name:"Rocket Jumper", type:"Bounce house", minHours:4, price:150, extraHour:25, units:1},
+    {name:"Horse Jumper", type:"Bounce house", minHours:4, price:150, extraHour:25, units:1},
+    {name:"Mechanical Bull", type:"Mechanical bull", minHours:3, price:325, extraHour:75, units:1}
+  ],
+  fees: {operator:30, setupBounce:25, setupBull:50, setupPackage:50, generator:50, base:"Jemez Pueblo"},
+  travel: [[0,5,"Jemez area (0-5 miles)",0],[5.01,15,"5-15 miles",40],[15.01,30,"16-30 miles",60],[30.01,45,"31-45 miles",80],[45.01,60,"46-60 miles",100],[60.01,75,"61-75 miles",120],[75.01,90,"76-90 miles",135],[90.01,105,"91-105 miles",150],[105.01,120,"106-120 miles",175],[120.01,135,"121-135 miles",200],[135.01,150,"136-150 miles",250],[150.01,null,"150+ miles",300]].map(([from,to,label,fee])=>({from,to,label,fee})),
+  booked: []
+};
+const INFO = {
+  "Pink Castle Jumper": {img:"pink-castle.jpg", text:"Turrets, flowers and a big bounce floor. A birthday favorite.", alt:"Pink and purple castle bounce house with turrets"},
+  "Rocket Jumper": {img:"rocket.jpg", text:"Red rockets and a blue-and-silver bounce house ready for liftoff.", alt:"Rocket-themed bounce house in red, blue and silver"},
+  "Horse Jumper": {img:"horse.jpg", text:"A western-style bounce house with a horse head on top.", alt:"Horse-themed bounce house with a horse head on the roof"},
+  "Mechanical Bull": {img:"bull.jpg", text:"Ride it on a padded inflatable ring. Operator included at an hourly rate; waivers required.", alt:"Mechanical bull inside a green inflatable ring with log-style posts"}
+};
+
+let D = DEFAULTS, live = false, milesExact = null, milesSource = "";
+const $ = id => document.getElementById(id);
+const money = n => "$" + (Math.round(n * 100) / 100).toLocaleString("en-US", {minimumFractionDigits: n % 1 ? 2 : 0, maximumFractionDigits: 2});
+const esc = s => String(s).replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const isBull = r => /bull/i.test(r.type) || /bull/i.test(r.name);
+const pad = n => String(n).padStart(2, "0");
+const ymd = d => d.getFullYear() + "-" + pad(d.getMonth() + 1) + "-" + pad(d.getDate());
+const todayStr = ymd(new Date());
+const prettyDate = s => { const [y,m,d] = s.split("-").map(Number); return new Date(y, m-1, d).toLocaleDateString("en-US", {weekday:"short", month:"short", day:"numeric", year:"numeric"}); };
+const t12 = s => { if (!s) return ""; let [h,m] = s.split(":").map(Number); const ap = h >= 12 ? "PM" : "AM"; h = h % 12 || 12; return h + ":" + pad(m) + " " + ap; };
+
+function usedOn(date, name) { return D.booked.filter(b => b.date === date && b.item === name).length; }
+function isTaken(date, name) { const r = D.rentals.find(x => x.name === name); return !!date && !!r && usedOn(date, name) >= (r.units || 1); }
+
+/* ===== Rental cards ===== */
+function renderCards() {
+  $("grid").innerHTML = D.rentals.map(r => {
+    const i = INFO[r.name] || {img:"", text:"", alt:r.name};
+    return `<article class="card">
+      <div class="ph">${i.img ? `<img src="images/${i.img}" alt="${esc(i.alt)}" loading="lazy">` : ""}</div>
+      <div class="body">
+        <span class="tag">${r.minHours}-hour minimum</span>
+        <h3>${esc(r.name)}</h3>
+        <p>${esc(i.text)}</p>
+        <p class="price">${money(r.price)} for ${r.minHours} hours, ${money(r.extraHour)} each extra hour</p>
+        <div class="acts">
+          <button class="btn line" type="button" data-cal="${esc(r.name)}">Check availability</button>
+          <button class="btn" type="button" data-pick="${esc(r.name)}">Request this</button>
+        </div>
+      </div>
+    </article>`;
+  }).join("");
+}
+
+/* ===== Form pieces ===== */
+function renderItems() {
+  const keep = new Set([...document.querySelectorAll("#items input:checked")].map(x => x.value));
+  const date = $("date").value;
+  $("items").innerHTML = D.rentals.map(r => {
+    const i = INFO[r.name] || {};
+    const taken = isTaken(date, r.name);
+    return `<label class="item${taken ? " taken" : ""}">
+      <input type="checkbox" value="${esc(r.name)}" ${keep.has(r.name) && !taken ? "checked" : ""} ${taken ? "disabled" : ""}>
+      ${i.img ? `<img src="images/${i.img}" alt="">` : "<span></span>"}
+      <div><b>${esc(r.name)}</b><span>${taken ? "Already booked on this date" : money(r.price) + " / " + r.minHours + " hrs"}</span></div>
+    </label>`;
+  }).join("");
+  const lost = [...keep].filter(n => isTaken(date, n));
+  $("itemmsg").textContent = lost.length ? lost.join(" and ") + (lost.length > 1 ? " are" : " is") + " already booked on " + prettyDate(date) + ". Try another date or rental." : "";
+}
+
+function renderZones() {
+  const cur = $("zone").value;
+  $("zone").innerHTML = `<option value="">Choose a distance</option>` +
+    D.travel.map((z, k) => `<option value="${k}">${esc(z.label)}${z.fee ? " · " + money(z.fee) : " · free"}</option>`).join("") +
+    `<option value="unsure">Not sure (we'll figure it out)</option>`;
+  if (cur) $("zone").value = cur;
+}
+
+function renderFeeTables() {
+  $("ptable").innerHTML = D.rentals.map(r => `<tr><td>${esc(r.name)} (${r.minHours} hrs)<br><span class="hint">+${money(r.extraHour)} each extra hour</span></td><td>${money(r.price)}</td></tr>`).join("");
+  document.querySelectorAll("[data-fee]").forEach(el => el.textContent = money(D.fees[el.dataset.fee] || 0));
+  $("ztable").innerHTML = D.travel.map(z => `<tr><td>${esc(z.label)}</td><td>${z.fee ? money(z.fee) : "Free"}</td></tr>`).join("");
+}
+
+function zoneForMiles(m) {
+  let k = 0;
+  D.travel.forEach((z, i) => { if (m >= z.from) k = i; });
+  return k;
+}
+
+/* ===== Estimate ===== */
+function hours() {
+  const s = $("start").value, e = $("end").value;
+  if (!s || !e) return 0;
+  const [sh, sm] = s.split(":").map(Number), [eh, em] = e.split(":").map(Number);
+  return Math.round(((eh * 60 + em) - (sh * 60 + sm)) / 60 * 100) / 100;
+}
+
+function estimate() {
+  const hrs = hours();
+  const chosen = [...document.querySelectorAll("#items input:checked")].map(x => D.rentals.find(r => r.name === x.value)).filter(Boolean);
+  const lines = [];
+  let total = 0;
+  const add = (label, amt, muted) => { lines.push({label, amt, muted}); total += amt || 0; };
+
+  chosen.forEach(r => {
+    const extra = Math.max(0, hrs - r.minHours);
+    const cost = r.price + extra * r.extraHour;
+    add(r.name + (extra > 0 ? ` (${r.minHours} hrs + ${extra} extra)` : ` (${r.minHours} hrs)`), cost);
+  });
+  const bounce = chosen.filter(r => !isBull(r)).length > 0, bull = chosen.some(isBull);
+  if (bounce || bull) add("Setup & takedown", bounce && bull ? D.fees.setupPackage : bull ? D.fees.setupBull : D.fees.setupBounce);
+  if (bull && hrs > 0) add(`Bull operator (${hrs} hrs × ${money(D.fees.operator)})`, hrs * D.fees.operator);
+  if (chosen.length) {
+    const z = $("zone").value;
+    if (z === "" ) lines.push({label:"Travel: choose a distance", amt:null, muted:true});
+    else if (z === "unsure") lines.push({label:"Travel: added after review", amt:null, muted:true});
+    else add("Travel: " + D.travel[+z].label, D.travel[+z].fee);
+    if (document.querySelector("input[name=gen]:checked").value === "Yes") add("Generator", D.fees.generator);
+  }
+
+  $("qlines").innerHTML = lines.map(l => `<li class="${l.muted ? "muted" : ""}"><span>${esc(l.label)}</span><span>${l.amt == null ? "" : money(l.amt)}</span></li>`).join("");
+  $("qtotal").textContent = money(total);
+  const d = $("date").value;
+  $("qsub").textContent = chosen.length ? (d ? prettyDate(d) : "Pick a date") + (hrs > 0 ? ` · ${t12($("start").value)} to ${t12($("end").value)} (${hrs} hrs)` : "") : "Pick a rental to see your price.";
+
+  let hn = "";
+  if (hrs <= 0) hn = "The end time needs to be after the start time.";
+  else {
+    const short = chosen.filter(r => hrs < r.minHours);
+    if (short.length) hn = `${hrs} hours is under the minimum for ${short.map(r => r.name).join(", ")}, so the minimum is charged.`;
+  }
+  $("hoursnote").textContent = hn;
+  return Math.round(total * 100) / 100;
+}
+
+function refresh() { renderItems(); estimate(); }
+
+/* ===== Availability calendar ===== */
+let calItem = null, calMonth = new Date();
+function openCal(name) {
+  calItem = name;
+  const d = $("date").value ? new Date($("date").value + "T12:00") : new Date();
+  calMonth = new Date(d.getFullYear(), d.getMonth(), 1);
+  $("calTitle").textContent = name;
+  $("calStatus").textContent = live ? "" : "Showing sample availability until the booking Sheet is connected.";
+  drawCal();
+  $("cal").showModal();
+}
+function drawCal() {
+  const y = calMonth.getFullYear(), m = calMonth.getMonth();
+  $("mLabel").textContent = calMonth.toLocaleDateString("en-US", {month:"long", year:"numeric"});
+  const first = new Date(y, m, 1).getDay(), days = new Date(y, m + 1, 0).getDate();
+  let h = ["Su","Mo","Tu","We","Th","Fr","Sa"].map(x => `<span class="dow">${x}</span>`).join("");
+  for (let i = 0; i < first; i++) h += "<span></span>";
+  for (let d = 1; d <= days; d++) {
+    const s = y + "-" + pad(m + 1) + "-" + pad(d);
+    const past = s < todayStr, booked = !past && isTaken(s, calItem);
+    const cls = past ? "past" : booked ? "booked" : "free";
+    const lbl = prettyDate(s) + (past ? "" : booked ? ", booked" : ", open");
+    h += `<button type="button" class="${cls}${s === todayStr ? " today" : ""}" data-day="${s}" aria-label="${lbl}" ${past || booked ? "disabled" : ""}>${d}</button>`;
+  }
+  $("calGrid").innerHTML = h;
+  const now = new Date(); $("prevM").disabled = y === now.getFullYear() && m === now.getMonth();
+}
+
+/* ===== Distance from address ===== */
+async function findMiles() {
+  const a = $("address").value.trim();
+  const msg = $("milesmsg");
+  msg.className = "msg";
+  if (!a) { msg.className = "msg bad"; msg.textContent = "Type your address or location above first."; return; }
+  if (!live) { msg.className = "msg bad"; msg.textContent = "This works once the booking system is connected. For now, pick the closest distance."; return; }
+  msg.textContent = "Looking it up…";
+  try {
+    const r = await (await fetch(API_URL + "?action=distance&to=" + encodeURIComponent(a))).json();
+    if (!r.ok) throw 0;
+    milesExact = r.miles; milesSource = "Google Maps from address";
+    $("zone").value = String(zoneForMiles(r.miles));
+    msg.className = "msg ok";
+    msg.textContent = `About ${r.miles} miles from Jemez Pueblo (to ${r.found}). We picked the matching distance for you. If that's the wrong place, choose the distance yourself.`;
+    estimate();
+  } catch (e) {
+    msg.className = "msg bad";
+    msg.textContent = "We couldn't find that on the map. That's common for rural addresses. Please pick the closest distance yourself.";
+  }
+}
+
+/* ===== Submit ===== */
+async function send(ev) {
+  ev.preventDefault();
+  const fm = $("formmsg"); fm.textContent = "";
+  const items = [...document.querySelectorAll("#items input:checked")].map(x => x.value);
+  const need = [["date","event date"],["start","start time"],["end","end time"],["eventType","event type"],["address","event location"],["zone","distance"],["name","name"],["phone","phone number"],["email","email"]];
+  const miss = need.filter(([id]) => !$(id).value.trim()).map(([,l]) => l);
+  if (!items.length) miss.unshift("at least one rental");
+  if (miss.length) { fm.textContent = "Please fill in: " + miss.join(", ") + "."; return; }
+  if ($("date").value < todayStr) { fm.textContent = "The event date is in the past."; return; }
+  if (hours() <= 0) { fm.textContent = "The end time needs to be after the start time."; return; }
+  if (!/^\S+@\S+\.\S+$/.test($("email").value.trim())) { fm.textContent = "Please check your email address."; return; }
+  if (!$("terms").checked) { fm.textContent = "Please read and agree to the rental terms."; return; }
+  if (!live) {
+    fm.innerHTML = `Online requests aren't switched on yet. Please send your request with our <a href="${BACKUP_FORM}" target="_blank" rel="noopener">booking form</a> for now. Your estimate above is ${money(estimate())}.`;
+    return;
+  }
+  const z = $("zone").value;
+  const miles = z === "unsure" ? "" : (milesExact != null && zoneForMiles(milesExact) === +z ? milesExact : (D.travel[+z].to ?? D.travel[+z].from));
+  const data = {
+    date: $("date").value, start: $("start").value, end: $("end").value, eventType: $("eventType").value,
+    items, generator: document.querySelector("input[name=gen]:checked").value,
+    address: $("address").value.trim(), miles, milesSource: z === "unsure" ? "customer not sure" : (milesSource && milesExact != null && zoneForMiles(milesExact) === +z ? milesSource : "customer picked " + D.travel[+z].label),
+    name: $("name").value.trim(), phone: $("phone").value.trim(), email: $("email").value.trim(),
+    contactVia: document.querySelector("input[name=via]:checked").value, social: $("social").value.trim(),
+    notes: $("notes").value.trim(), terms: true, estimate: estimate()
+  };
+  const b = $("send"); b.disabled = true; b.textContent = "Sending…";
+  try {
+    const res = await (await fetch(API_URL, {method:"POST", body: JSON.stringify(data)})).json();
+    if (res.ok) return done(data);
+    if (res.error === "taken") {
+      res.taken.forEach(n => D.booked.push({date: data.date, item: n}));
+      refresh();
+      fm.textContent = res.taken.join(" and ") + " just got booked for that date. Please pick another date or rental.";
+    } else fm.textContent = "Something went wrong sending your request. Please try again, or message us on Facebook or Instagram.";
+  } catch (e) {
+    fm.innerHTML = `We couldn't send your request. Please try again, or use our <a href="${BACKUP_FORM}" target="_blank" rel="noopener">backup booking form</a>.`;
+  } finally { b.disabled = false; b.textContent = "Send my request"; }
+}
+
+function done(d) {
+  $("f").hidden = true;
+  $("f").insertAdjacentHTML("beforebegin", `<div class="done">
+    <h3>Request sent!</h3>
+    <p>Thanks, ${esc(d.name.split(" ")[0])}. We got your request for <b>${esc(d.items.join(", "))}</b> on <b>${prettyDate(d.date)}</b>, ${t12(d.start)} to ${t12(d.end)}.</p>
+    <p>Your estimate: <b>${money(d.estimate)}</b>. This isn't a confirmed booking yet. We'll check availability and send your final quote${d.social ? " on " + esc(d.contactVia.replace(" Messenger","")) : ""}.</p>
+    <button class="btn line" type="button" onclick="location.reload()">Start another request</button>
+  </div>`);
+  $("book").scrollIntoView();
+}
+
+/* ===== Wire up ===== */
+document.addEventListener("click", e => {
+  const c = e.target.closest("[data-cal]"); if (c) return openCal(c.dataset.cal);
+  const p = e.target.closest("[data-pick]");
+  if (p) {
+    renderItems();
+    const box = [...document.querySelectorAll("#items input")].find(x => x.value === p.dataset.pick);
+    if (box && !box.disabled) box.checked = true;
+    estimate(); $("book").scrollIntoView(); return;
+  }
+  const day = e.target.closest("[data-day]");
+  if (day && !day.disabled) {
+    $("date").value = day.dataset.day;
+    $("cal").close(); renderItems();
+    const box = [...document.querySelectorAll("#items input")].find(x => x.value === calItem);
+    if (box && !box.disabled) box.checked = true;
+    estimate(); $("book").scrollIntoView();
+  }
+});
+$("calClose").onclick = () => $("cal").close();
+$("cal").addEventListener("click", e => { if (e.target === $("cal")) $("cal").close(); });
+$("prevM").onclick = () => { calMonth = new Date(calMonth.getFullYear(), calMonth.getMonth() - 1, 1); drawCal(); };
+$("nextM").onclick = () => { calMonth = new Date(calMonth.getFullYear(), calMonth.getMonth() + 1, 1); drawCal(); };
+$("date").min = todayStr;
+$("date").addEventListener("change", refresh);
+["start","end","zone"].forEach(id => $(id).addEventListener("change", estimate));
+$("address").addEventListener("input", () => { milesExact = null; milesSource = ""; });
+$("f").addEventListener("change", e => { if (e.target.matches("#items input, input[name=gen]")) estimate(); });
+$("findmiles").onclick = findMiles;
+$("f").addEventListener("submit", send);
+
+function renderAll() { renderCards(); renderZones(); renderFeeTables(); refresh(); }
+renderAll();
+
+async function load() {
+  if (!API_URL) { $("findmiles").hidden = true; return; }
+  try {
+    const r = await (await fetch(API_URL + "?t=" + Date.now())).json();
+    if (!r.ok) throw 0;
+    D = {rentals: r.rentals.length ? r.rentals : DEFAULTS.rentals, fees: r.fees, travel: r.travel.length ? r.travel : DEFAULTS.travel, booked: r.booked || []};
+    live = true; renderAll();
+  } catch (e) {
+    $("findmiles").hidden = true;
+    const o = $("offline"); o.hidden = false;
+    o.innerHTML = `Live availability isn't loading right now, so prices may be out of date. You can still use our <a href="${BACKUP_FORM}" target="_blank" rel="noopener">backup booking form</a>.`;
+  }
+}
+load();
 }
 </script>
 </body>
