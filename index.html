@@ -350,6 +350,15 @@ dialog::backdrop{background:rgba(0,0,0,.6)}
           <tr><td>Mechanical bull booking</td><td data-fee="setupBull"></td></tr>
           <tr><td>Bounce house + mechanical bull package</td><td data-fee="setupPackage"></td></tr>
         </table>
+        <div id="pkgbox">
+          <h3 style="margin-top:22px">Package discounts</h3>
+          <table>
+            <tr data-pkgrow="packageTwoJumpers"><td>Two bounce houses</td><td><span data-fee="packageTwoJumpers"></span> off</td></tr>
+            <tr data-pkgrow="packageJumperBull"><td>Bounce house + mechanical bull</td><td><span data-fee="packageJumperBull"></span> off</td></tr>
+            <tr data-pkgrow="packageTwoJumpersBull"><td>Two bounce houses + mechanical bull</td><td><span data-fee="packageTwoJumpersBull"></span> off</td></tr>
+          </table>
+          <p class="hint" style="margin:8px 0 0">Package discounts come off your total automatically.</p>
+        </div>
         <h3 style="margin-top:22px">Other fees</h3>
         <table>
           <tr><td>Mechanical bull operator</td><td><span data-fee="operator"></span>/hour</td></tr>
@@ -422,7 +431,7 @@ const DEFAULTS = {
     {name:"Horse Jumper", type:"Bounce house", minHours:4, price:120, extraHour:30, units:1, allDay:200},
     {name:"Mechanical Bull", type:"Mechanical bull", minHours:3, price:325, extraHour:100, units:1, allDay:500}
   ],
-  fees: {operator:30, setupBounce:25, setupBull:50, setupPackage:50, generator:50, base:"Jemez Pueblo", allDayHours:8},
+  fees: {operator:30, setupBounce:25, setupBull:50, setupPackage:50, generator:50, packageTwoJumpers:25, packageJumperBull:50, packageTwoJumpersBull:75, base:"Jemez Pueblo", allDayHours:8},
   travel: [[0,5,"Jemez area (0-5 miles)",0],[5.01,15,"5-15 miles",40],[15.01,30,"16-30 miles",60],[30.01,45,"31-45 miles",80],[45.01,60,"46-60 miles",100],[60.01,75,"61-75 miles",120],[75.01,90,"76-90 miles",135],[90.01,105,"91-105 miles",150],[105.01,120,"106-120 miles",175],[120.01,135,"121-135 miles",200],[135.01,150,"136-150 miles",250],[150.01,null,"150+ miles",300]].map(([from,to,label,fee])=>({from,to,label,fee})),
   booked: []
 };
@@ -503,6 +512,8 @@ function renderZones() {
 function renderFeeTables() {
   $("ptable").innerHTML = D.rentals.map(r => `<tr><td>${esc(r.name)} (${r.minHours} hrs)<br><span class="hint">${r.allDay != null ? money(r.allDay) + " all day (" + allDayHrs() + " hrs) · " : ""}+${money(r.extraHour)} each extra hour</span></td><td>${money(r.price)}</td></tr>`).join("");
   document.querySelectorAll("[data-fee]").forEach(el => el.textContent = money(D.fees[el.dataset.fee] || 0));
+  document.querySelectorAll("[data-pkgrow]").forEach(tr => { tr.style.display = D.fees[tr.dataset.pkgrow] > 0 ? "" : "none"; });
+  $("pkgbox").style.display = ["packageTwoJumpers", "packageJumperBull", "packageTwoJumpersBull"].some(k => D.fees[k] > 0) ? "" : "none";
   $("ztable").innerHTML = D.travel.map(z => `<tr><td>${esc(z.label)}</td><td>${z.fee ? money(z.fee) : "Free"}</td></tr>`).join("");
 }
 
@@ -536,6 +547,9 @@ function estimate() {
   });
   const bounce = chosen.filter(r => !isBull(r)).length > 0, bull = chosen.some(isBull);
   if (bounce || bull) add("Setup & takedown", bounce && bull ? D.fees.setupPackage : bull ? D.fees.setupBull : D.fees.setupBounce);
+  const nb = chosen.filter(r => !isBull(r)).length;
+  const pkg = bull ? (nb >= 2 ? D.fees.packageTwoJumpersBull : nb === 1 ? D.fees.packageJumperBull : 0) : (nb >= 2 ? D.fees.packageTwoJumpers : 0);
+  if (pkg > 0) add("Package discount", -pkg);
   if (bull && hrs > 0) add(`Bull operator (${hrs} hrs × ${money(D.fees.operator)})`, hrs * D.fees.operator);
   if (chosen.length) {
     const z = $("zone").value;
@@ -545,7 +559,7 @@ function estimate() {
     if (SHOW_GENERATOR && document.querySelector("input[name=gen]:checked").value === "Yes") add("Generator", D.fees.generator);
   }
 
-  $("qlines").innerHTML = lines.map(l => `<li class="${l.muted ? "muted" : ""}"><span>${esc(l.label)}</span><span>${l.amt == null ? "" : money(l.amt)}</span></li>`).join("");
+  $("qlines").innerHTML = lines.map(l => `<li class="${l.muted ? "muted" : ""}"><span>${esc(l.label)}</span><span>${l.amt == null ? "" : l.amt < 0 ? "-" + money(-l.amt) : money(l.amt)}</span></li>`).join("");
   $("qtotal").textContent = money(total);
   const d = $("date").value;
   $("qsub").textContent = chosen.length ? (d ? prettyDate(d) : "Pick a date") + (hrs > 0 ? ` · ${t12($("start").value)} to ${t12($("end").value)} (${hrs} hrs)` : "") : "Pick a rental to see your price.";
