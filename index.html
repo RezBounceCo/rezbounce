@@ -504,7 +504,7 @@ function renderItems() {
 function renderZones() {
   const cur = $("zone").value;
   $("zone").innerHTML = `<option value="">Choose a distance</option>` +
-    D.travel.map((z, k) => `<option value="${k}">${esc(z.label)}${z.fee ? " · " + money(z.fee) : " · free"}</option>`).join("") +
+    D.travel.map((z, k) => `<option value="${k}">${esc(z.label)}</option>`).join("") +
     `<option value="unsure">Not sure (we'll figure it out)</option>`;
   if (cur) $("zone").value = cur;
 }
