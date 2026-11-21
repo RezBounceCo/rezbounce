@@ -259,7 +259,7 @@ dialog::backdrop{background:rgba(0,0,0,.6)}
             <legend>Rentals</legend>
             <div class="items" id="items"></div>
             <p class="msg bad" id="itemmsg"></p>
-            <div>
+            <div data-generator>
               <span style="font-weight:600">Do you need a generator? <span class="req">*</span></span>
               <p class="hint" style="margin:2px 0 8px">Every rental needs a working outlet. If there's no power where you're setting up, we can bring a generator for an extra fee.</p>
               <div class="choices">
@@ -311,7 +311,7 @@ dialog::backdrop{background:rgba(0,0,0,.6)}
             <div class="terms">
               <ol>
                 <li><b>Booking approval:</b> sending this form does not guarantee a reservation. All bookings depend on availability and approval.</li>
-                <li><b>Pricing &amp; fees:</b> final quotes include rental, setup, delivery, generator and other service fees.</li>
+                <li><b>Pricing &amp; fees:</b> final quotes include rental, setup, delivery<span data-generator>, generator</span> and other service fees.</li>
                 <li><b>Payment:</b> a deposit may be required to hold your date. Full payment is due before setup.</li>
                 <li><b>Weather:</b> rentals may be canceled or rescheduled for rain, high winds or other unsafe weather.</li>
                 <li><b>Equipment &amp; safety:</b> follow all safety rules and rental instructions. The mechanical bull needs extra safety steps and rider waivers.</li>
@@ -353,7 +353,7 @@ dialog::backdrop{background:rgba(0,0,0,.6)}
         <h3 style="margin-top:22px">Other fees</h3>
         <table>
           <tr><td>Mechanical bull operator</td><td><span data-fee="operator"></span>/hour</td></tr>
-          <tr><td>Generator, if you have no outlet</td><td data-fee="generator"></td></tr>
+          <tr data-generator><td>Generator, if you have no outlet</td><td data-fee="generator"></td></tr>
           <tr><td>Travel &amp; delivery (round trip)</td><td>By distance, below</td></tr>
         </table>
         <details>
@@ -368,7 +368,7 @@ dialog::backdrop{background:rgba(0,0,0,.6)}
       <div class="panel">
         <ol class="tlist">
           <li><b>Booking approval</b>Sending a request does not guarantee a reservation. All bookings depend on availability and approval.</li>
-          <li><b>Pricing &amp; fees</b>Final quotes include rental, setup, delivery, generator and other service fees.</li>
+          <li><b>Pricing &amp; fees</b>Final quotes include rental, setup, delivery<span data-generator>, generator</span> and other service fees.</li>
           <li><b>Payment</b>A deposit may be required to hold your reservation. Full payment is due before setup.</li>
           <li><b>Weather</b>Rentals may be canceled or rescheduled for rain, high winds or other unsafe weather.</li>
           <li><b>Equipment &amp; safety</b>Follow all safety rules and rental instructions. The mechanical bull needs extra safety steps and rider waivers.</li>
@@ -413,6 +413,8 @@ dialog::backdrop{background:rgba(0,0,0,.6)}
 const API_URL = "https://script.google.com/macros/s/AKfycbyy82zu5KzrgP8WWY7VzVOGAq2Y98RhjBEWoRPWytKCzeis50U0aI4ZQwyh8kvxoTQr/exec";
 // Used until the Sheet is connected (and if it can't be reached). The Sheet's numbers win once connected.
 const BACKUP_FORM = "https://docs.google.com/forms/d/e/1FAIpQLSeKIq2zjS9GlfX8J7WIW54w37LfnM9_XHvW8Zv_4jv2V0mZkg/viewform";
+// Generator on/off. false = hidden from the form, fees list and estimate. Change to true to turn it back on.
+const SHOW_GENERATOR = false;
 const DEFAULTS = {
   rentals: [
     {name:"Pink Castle Jumper", type:"Bounce house", minHours:4, price:100, extraHour:25, units:1, allDay:160},
@@ -433,6 +435,7 @@ const INFO = {
 
 let D = DEFAULTS, live = false, milesExact = null, milesSource = "";
 const $ = id => document.getElementById(id);
+if (!SHOW_GENERATOR) document.querySelectorAll("[data-generator]").forEach(el => { el.style.display = "none"; });
 const money = n => "$" + (Math.round(n * 100) / 100).toLocaleString("en-US", {minimumFractionDigits: n % 1 ? 2 : 0, maximumFractionDigits: 2});
 const esc = s => String(s).replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
 const isBull = r => /bull/i.test(r.type) || /bull/i.test(r.name);
@@ -539,7 +542,7 @@ function estimate() {
     if (z === "" ) lines.push({label:"Travel: choose a distance", amt:null, muted:true});
     else if (z === "unsure") lines.push({label:"Travel: added after review", amt:null, muted:true});
     else add("Travel: " + D.travel[+z].label, D.travel[+z].fee);
-    if (document.querySelector("input[name=gen]:checked").value === "Yes") add("Generator", D.fees.generator);
+    if (SHOW_GENERATOR && document.querySelector("input[name=gen]:checked").value === "Yes") add("Generator", D.fees.generator);
   }
 
   $("qlines").innerHTML = lines.map(l => `<li class="${l.muted ? "muted" : ""}"><span>${esc(l.label)}</span><span>${l.amt == null ? "" : money(l.amt)}</span></li>`).join("");
@@ -630,7 +633,7 @@ async function send(ev) {
   const miles = z === "unsure" ? "" : (milesExact != null && zoneForMiles(milesExact) === +z ? milesExact : (D.travel[+z].to ?? D.travel[+z].from));
   const data = {
     date: $("date").value, start: $("start").value, end: $("end").value, eventType: $("eventType").value,
-    items, generator: document.querySelector("input[name=gen]:checked").value,
+    items, generator: SHOW_GENERATOR ? document.querySelector("input[name=gen]:checked").value : "No",
     address: $("address").value.trim(), miles, milesSource: z === "unsure" ? "customer not sure" : (milesSource && milesExact != null && zoneForMiles(milesExact) === +z ? milesSource : "customer picked " + D.travel[+z].label),
     name: $("name").value.trim(), phone: $("phone").value.trim(), email: $("email").value.trim(),
     contactVia: document.querySelector("input[name=via]:checked").value, social: $("social").value.trim(),
