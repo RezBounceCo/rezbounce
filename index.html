@@ -346,10 +346,11 @@ dialog::backdrop{background:rgba(0,0,0,.6)}
         <table id="ptable"></table>
         <h3 style="margin-top:22px">Setup &amp; takedown</h3>
         <table>
-          <tr><td>Bounce house booking</td><td data-fee="setupBounce"></td></tr>
+          <tr data-hide0="setupBounce"><td>Bounce house booking</td><td data-fee="setupBounce"></td></tr>
           <tr><td>Mechanical bull booking</td><td data-fee="setupBull"></td></tr>
           <tr><td>Bounce house + mechanical bull package</td><td data-fee="setupPackage"></td></tr>
         </table>
+        <p class="hint" id="setupIncl" style="margin:8px 0 0;display:none">Setup &amp; takedown is included in the price of every bounce house.</p>
         <div id="pkgbox">
           <h3 style="margin-top:22px">Package discounts</h3>
           <table>
@@ -426,10 +427,10 @@ const BACKUP_FORM = "https://docs.google.com/forms/d/e/1FAIpQLSeKIq2zjS9GlfX8J7W
 const SHOW_GENERATOR = false;
 const DEFAULTS = {
   rentals: [
-    {name:"Pink Castle Jumper", type:"Bounce house", minHours:4, price:100, extraHour:25, units:1, allDay:160},
-    {name:"Rocket Jumper", type:"Bounce house", minHours:4, price:100, extraHour:25, units:1, allDay:160},
-    {name:"Horse Jumper", type:"Bounce house", minHours:4, price:120, extraHour:30, units:1, allDay:200},
-    {name:"Mechanical Bull", type:"Mechanical bull", minHours:3, price:325, extraHour:100, units:1, allDay:500}
+    {name:"Pink Castle Jumper", type:"Bounce house", minHours:4, price:150, extraHour:25, units:1, allDay:null},
+    {name:"Rocket Jumper", type:"Bounce house", minHours:4, price:150, extraHour:25, units:1, allDay:null},
+    {name:"Horse Jumper", type:"Bounce house", minHours:4, price:150, extraHour:25, units:1, allDay:null},
+    {name:"Mechanical Bull", type:"Mechanical bull", minHours:3, price:325, extraHour:50, firstExtra:100, units:1, allDay:null}
   ],
   fees: {operator:30, setupBounce:25, setupBull:50, setupPackage:50, generator:50, packageTwoJumpers:25, packageJumperBull:50, packageTwoJumpersBull:75, base:"Jemez Pueblo", allDayHours:8},
   travel: [[0,5,"Jemez area (0-5 miles)",0],[5.01,15,"5-15 miles",40],[15.01,30,"16-30 miles",60],[30.01,45,"31-45 miles",80],[45.01,60,"46-60 miles",100],[60.01,75,"61-75 miles",120],[75.01,90,"76-90 miles",135],[90.01,105,"91-105 miles",150],[105.01,120,"106-120 miles",175],[120.01,135,"121-135 miles",200],[135.01,150,"136-150 miles",250],[150.01,null,"150+ miles",300]].map(([from,to,label,fee])=>({from,to,label,fee})),
@@ -455,8 +456,13 @@ const prettyDate = s => { const [y,m,d] = s.split("-").map(Number); return new D
 const t12 = s => { if (!s) return ""; let [h,m] = s.split(":").map(Number); const ap = h >= 12 ? "PM" : "AM"; h = h % 12 || 12; return h + ":" + pad(m) + " " + ap; };
 
 const allDayHrs = () => D.fees.allDayHours || 8;
+const extraText = r => r.firstExtra != null ? money(r.firstExtra) + " for the first extra hour, then " + money(r.extraHour) + " each hour after" : money(r.extraHour) + " each extra hour";
+function extraCost(r, extra) {
+  if (extra <= 0) return 0;
+  return r.firstExtra != null ? Math.min(extra, 1) * r.firstExtra + Math.max(0, extra - 1) * r.extraHour : extra * r.extraHour;
+}
 function rentalCost(r, hrs) {
-  const byHour = r.price + Math.max(0, hrs - r.minHours) * r.extraHour;
+  const byHour = r.price + extraCost(r, Math.max(0, hrs - r.minHours));
   if (r.allDay == null) return {cost: byHour, allDay: false};
   const byDay = r.allDay + Math.max(0, hrs - allDayHrs()) * r.extraHour;
   return byDay < byHour ? {cost: byDay, allDay: true} : {cost: byHour, allDay: false};
@@ -474,7 +480,7 @@ function renderCards() {
         <span class="tag">${r.minHours}-hour minimum${i.size ? " · " + i.size : ""}</span>
         <h3>${esc(r.name)}</h3>
         <p>${esc(i.text)}</p>
-        <p class="price">${money(r.price)} for ${r.minHours} hours${r.allDay != null ? `<br>${money(r.allDay)} all day (${allDayHrs()} hrs)` : ""}<br><span class="hint">${money(r.extraHour)} each extra hour</span></p>
+        <p class="price">${money(r.price)} for ${r.minHours} hours${r.allDay != null ? `<br>${money(r.allDay)} all day (${allDayHrs()} hrs)` : ""}<br><span class="hint">${extraText(r)}</span></p>
         <div class="acts">
           <button class="btn line" type="button" data-cal="${esc(r.name)}">Check availability</button>
           <button class="btn" type="button" data-pick="${esc(r.name)}">Request this</button>
@@ -510,8 +516,10 @@ function renderZones() {
 }
 
 function renderFeeTables() {
-  $("ptable").innerHTML = D.rentals.map(r => `<tr><td>${esc(r.name)} (${r.minHours} hrs)<br><span class="hint">${r.allDay != null ? money(r.allDay) + " all day (" + allDayHrs() + " hrs) · " : ""}+${money(r.extraHour)} each extra hour</span></td><td>${money(r.price)}</td></tr>`).join("");
+  $("ptable").innerHTML = D.rentals.map(r => `<tr><td>${esc(r.name)} (${r.minHours} hrs)<br><span class="hint">${r.allDay != null ? money(r.allDay) + " all day (" + allDayHrs() + " hrs) · " : ""}+${extraText(r)}</span></td><td>${money(r.price)}</td></tr>`).join("");
   document.querySelectorAll("[data-fee]").forEach(el => el.textContent = money(D.fees[el.dataset.fee] || 0));
+  document.querySelectorAll("[data-hide0]").forEach(tr => { tr.style.display = D.fees[tr.dataset.hide0] > 0 ? "" : "none"; });
+  $("setupIncl").style.display = D.fees.setupBounce > 0 ? "none" : "";
   document.querySelectorAll("[data-pkgrow]").forEach(tr => { tr.style.display = D.fees[tr.dataset.pkgrow] > 0 ? "" : "none"; });
   $("pkgbox").style.display = ["packageTwoJumpers", "packageJumperBull", "packageTwoJumpersBull"].some(k => D.fees[k] > 0) ? "" : "none";
   $("ztable").innerHTML = D.travel.map(z => `<tr><td>${esc(z.label)}</td><td>${z.fee ? money(z.fee) : "Free"}</td></tr>`).join("");
@@ -546,7 +554,8 @@ function estimate() {
     add(`${r.name} (${label})`, cost);
   });
   const bounce = chosen.filter(r => !isBull(r)).length > 0, bull = chosen.some(isBull);
-  if (bounce || bull) add("Setup & takedown", bounce && bull ? D.fees.setupPackage : bull ? D.fees.setupBull : D.fees.setupBounce);
+  const su = bounce && bull ? D.fees.setupPackage : bull ? D.fees.setupBull : D.fees.setupBounce;
+  if (bounce || bull) { if (su > 0) add("Setup & takedown", su); else add("Setup & takedown included", null, true); }
   const nb = chosen.filter(r => !isBull(r)).length;
   const pkg = bull ? (nb >= 2 ? D.fees.packageTwoJumpersBull : nb === 1 ? D.fees.packageJumperBull : 0) : (nb >= 2 ? D.fees.packageTwoJumpers : 0);
   if (pkg > 0) add("Package discount", -pkg);
